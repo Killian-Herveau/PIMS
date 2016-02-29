@@ -98,9 +98,9 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000700.2Ddbl');
-figure;
-imshow2(img1);
+img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000400.2Ddbl');
+% figure;
+% imshow2(img1);
 %size(img1)
 im = zeros(120, 120);
 im = masque_rephase(img1);
@@ -111,7 +111,7 @@ im_seuil = zeros(120, 120);
 comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
 for i=1:120
     for j=1:120
-        if im(i,j)>comparaison(i,j)-10
+        if im(i,j)>comparaison(i,j)-75
             im_seuil(i,j) = 1;
         else
             im_seuil(i,j) = 0;
@@ -119,10 +119,25 @@ for i=1:120
     end
 end
 
-%im_seuil = bwmorph(im_seuil, 'skel', Inf);
+im_seuil = bwmorph(im_seuil, 'remove', Inf);
 figure; 
-imshow2(im_seuil);
+imshow(im_seuil,'InitialMagnification','fit');
 title('seuillage adap fit-gauss2D');
+
+%Bw = edge(im_seuil, 'canny', [0.1 0.5],3);
+%figure;
+%imagesc(Bw);
+[L,num] = bwlabel(im_seuil,8);
+
+barycentre = zeros(2,num);
+for ii=1:num
+    im_seuil=(L==ii);
+    [y,x] = find(im_seuil);
+    barycentre(1,ii) = mean(x);
+    barycentre(2,ii) = mean(y);
+end;
+figure(1);
+line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
 
 % %% seuillage adaptatif avec fit polynomial -> il est pas très adapté!
 % im = zeros(120,120);
