@@ -3,10 +3,11 @@ function [ id,m ] = smooth_max( f )
 %smooth_max va lisser avec une spline, trouver son equation polynomiale et trouver
 %analytiquement ses racines
 % [y,p]=fourier2pol(f); % bad idea
+
 x=33:106;%c'est arbitraire, c'est pour voir mieux où est le max et améliorer le fit
 f1=f(x);
 %spl est un 'cfit'
-spl=createFitSpl(x,f1); 
+spl=createFitSpl(x,f1);
 %cette ligne permet d'extraire les valeurs de la spline
 t=spl(x);
 [m id] = max(t);
