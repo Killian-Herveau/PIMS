@@ -7,13 +7,13 @@ function [ imgf ] = passebas_hg2D( img, s , k)
 %%
 
 [x,y]=size(img);
-%fftshift pour avoir l'image avec origine au centre, fft2 pour passer en fourrier
+%fftshift pour avoir l'image centrée, fft2 pour passer en fourrier
 F=fftshift(fft2(img)); 
 
 %le filtre est une hypergaussienne 2D à sym de révolution centrée dans l'image
 H0=hgaussp([x,y],[x/2,y/2],1,s,0,10);
 
-G=zeros(x,y);
+G=zeros(x,y);%préallocation : 35ms de gagnées pour 120x120
 for i=1:x 
     for j=1:y 
         G(i,j)=F(i,j)*H0(i,j); 

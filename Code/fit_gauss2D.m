@@ -1,4 +1,4 @@
-function [ p ] = fit_gauss2D( img )
+function [ p ] = fit_gauss2D( img,p0 )
 %img est l'image d'une gaussienne2D pour laquelle on souhaite obtenir
 %les paramètres
 %%%%%
@@ -16,7 +16,17 @@ function [ p ] = fit_gauss2D( img )
 %            Rgauss2D.m
 %            jaco_der.m
 %%
+
 [dim_v,dim_h]=size(img);%nombre de lignes, nombre de colonnes
+fline=zeros(1,dim_v*dim_h);
+
+% Quels parametres l'utilisateur a t-il choisit ?
+if (exist('p0','var'))
+    p  = approxgauss2D( fline , p0 ,dim_h,dim_v);
+    return
+end
+
+
 [Max,Iv]=max(img);%donne la position verticale de chaque maximum
 [Max,I_h]=max(Max);%donne la position horizontale du maximum global
 I_v = Iv(I_h);
@@ -37,7 +47,7 @@ for i=I_v-15:I_v+15
 end
 
 %%
-%crée une ligne dim_v*dim_v pour contenir l'image recoupée à chaque fin de
+%%crée une ligne dim_v*dim_v pour contenir l'image recoupée à chaque fin de
 %ligne   
 %      dim_h
 %   <---------->
@@ -49,7 +59,7 @@ end
 % au cas 1D !
 %%
 
-fline=zeros(1,dim_v*dim_h);
+
 for i=1:dim_v
     fline((i-1)*dim_h+1:i*dim_h)=img(i,:);
 end

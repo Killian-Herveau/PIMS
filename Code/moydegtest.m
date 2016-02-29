@@ -1,10 +1,11 @@
 function [ moyout ] = moydegtest(image,d,n,centrex,centrey,pasx,pasy,plot)
+
 % Calcule la moyenne selon des segments orientés, en passant par un centre
 
 % Renvoie les moyennes de segments orientés d'une image, en suivant un pas, en prenant les pixels sur un angle de d degrés (par
 % rapport à la verticale) . l'angle est inférieur à 90°
 %angle <0 : /===/      angle>0   \===\  
-% On pondère avec 4 pixels par leur éloignement à la droite ideale, en dx+dy
+% On pondère 4 pixels par leur éloignement à la droite ideale, en dx+dy
 % On parcourt l'image normalement à la droite, appliquant n autour de son centre vertical
 
 %A FAIRE
@@ -57,9 +58,16 @@ end
 
 [ximage,yimage]=size(image); %x vertical et y horizontal
 t=tand(d); %inverse de la pente de la droite
-img=zeros(3*ximage+1,3*yimage+1);
-img=img;
-img(ximage:2*ximage-1,yimage:2*yimage-1)=image;
+
+%on rajoute une image autour au cas où on dépasse, autour il y aura des
+%"nan"
+maximg=max(max(image));
+img=zeros(3*ximage,3*yimage);
+img(ximage:2*ximage-1,yimage:2*yimage-1)=image; %on met l'image au centre
+img(1:ximage-1,:)=maximg;
+img(2*ximage:3*ximage,:)=maximg;
+img(ximage:2*ximage-1,1:yimage-1)=maximg;
+img(ximage:2*ximage-1,2*yimage:3*yimage)=maximg;
 
 % moy=zeros((y=taille-1-mod(y-1,pasy)),1);
 % departx=round(x/2-n/2+0.5);
@@ -67,8 +75,9 @@ img(ximage:2*ximage-1,yimage:2*yimage-1)=image;
 % departx=ximage+round(centrex-centrey*t-n/cosd(d))
 % departx=ximage+round(centrex*t-n*cosd(d)/2-t*(centrey-n*sind(d)/2))
 % departx=ximage+round(centrex+((centrey*t))-(n/(2*cosd(d))))
-% departx=ximage+centrex+round(t*centrey-(t>0)*n/(2*cosd(d)));
-departx=ximage+centrex+round(-n/(2*cosd(d))+t*centrey);
+
+% departx=ximage+centrex+round(t*centrey-(t>0)*n/(cosd(d)));
+departx=ximage+centrex+round(-n/(2*cosd(d))+t*centrey)+1;
 
 % <=> à
         % if(t>0)
@@ -112,7 +121,7 @@ if(n<x)
             CHEMIN=img;  % affiche le chemin parcouru (plot existe)
                 for(j=yimage+ajouty:pasy:2*yimage-n*sind(d)-2) %on parcourt l'image horizontalement
                     
-                    for(X=departx:pasx:departx+n) %on somme les intensités en partant du point exterieur bas
+                    for(X=departx:pasx:departx+round(sind(d)*n)) %on somme les intensités en partant du point exterieur bas
                                                     %-1 necessaire apres le
                                                     %n ?
                         %La droite aura pour équation:
@@ -134,7 +143,6 @@ if(n<x)
                     
                         CHEMIN(xp,yp)=maximg;
                         CHEMIN(xn,yn)=maximg;
-                    
                     end 
                     departx=departx-t*pasy; %décalage de la droite
                     if(departx>2*ximage)|(departx<ximage) %si on sort de l'image
@@ -150,7 +158,7 @@ if(n<x)
             else
                 for(j=yimage+ajouty:pasy:2*yimage-n*sind(d)-2) %on parcourt l'image horizontalement
                        
-                    for(X=departx:pasx:departx+n) %on somme les intensités en partant du point exterieur bas
+                    for(X=departx:pasx:departx+round(sind(d)*n)) %on somme les intensités en partant du point exterieur bas
                         %La droite aura pour équation:
                         % Y(horizontal)=X(vertical)*t+j-departx*t
                         posy=X*t+j-departx*t;
@@ -175,7 +183,7 @@ if(n<x)
 
                 end 
             end
-            moy=moy/(round((n-1)/pasx+0.5));    %on divise par le nombre d'echantillons
+            moy=moy/(round((n-1)/pasx+0.5));
         else
             error('n ou l"angle donne est trop grand')
         end
@@ -194,9 +202,10 @@ if(n<x)
                 %même chose.
                 maximg=max(max(image));
                 CHEMIN=img;  % affiche le chemin parcouru (plot existe)
-                for(j=yimage+ajouty:pasy:2*yimage-1+ajouty+n*sind(d)-1) %on parcourt l'image horizontalement
+                yimage+ajouty
+                for(j=yimage+ajouty:pasy:2*yimage-1+ajouty+n*sind(d)-3) %on parcourt l'image horizontalement
 
-                    for(X=departx:pasx:departx+n) %on somme les intensités en partant du point exterieur bas
+                    for(X=departx:pasx:departx+round(-sind(d)*n)) %on somme les intensités en partant du point exterieur bas
                         %La droite aura pour équation:
                         % Y(horizontal)=(X(vertical)*t+j-departx*t
                     posy=X*t+j-departx*t-t*n;
@@ -216,14 +225,14 @@ if(n<x)
                          CHEMIN(xp,yp)=maximg;
                          CHEMIN(xn,yn)=maximg;
                         % enregistre le chemin parcouru (optionnel)
-
+              
                     end 
                     moyY=moyY+1; %on calcule la prochaine moyenne
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx-n*sind(d)+2>2*ximage)|(departx<ximage) %si on sort de l'image
                         break
                     end
-                    
+                    % imshow(CHEMIN)
                 end 
             figure
             imshow2(CHEMIN) %Affiche le chemin parcouru pour calculer la
@@ -231,7 +240,7 @@ if(n<x)
             else
                 for(j=yimage+ajouty:pasy:2*yimage-1+ajouty) %on parcourt l'image horizontalement
 
-                    for(X=departx:pasx:departx+n) %on somme les intensités en partant du point exterieur bas
+                    for(X=departx:pasx:departx+round(-sind(d)*n)) %on somme les intensités en partant du point exterieur bas
                         %La droite aura pour équation:
                         % Y(horizontal)=(X(vertical)*t+j-departx*t
                     posy=X*t+j-departx*t-t*n;
@@ -246,14 +255,15 @@ if(n<x)
                         (img(xn,yp)*(modx+1-mody)+...
                         img(xp,yp)*(2-modx-mody)+...
                         img(xp,yn)*(1-modx+mody)+...
-                        img(xn,yn)*(modx+mody))/4; 
+                        img(xn,yn)*(modx+mody))/4;
 
                     end 
                     moyY=moyY+1; %on calcule la prochaine moyenne
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx-n*sind(d)+2>2*ximage)|(departx<ximage) %si on sort de l'image
-                        break
-                    end
+%                         j=2*yimage-1+ajouty;
+                         break
+                     end
                 end 
             end
         moyout=moy/(round((n-1)/pasx+0.5));
@@ -265,9 +275,22 @@ if(n<x)
     warning('langle etant nul on utilise moyvert'); %cas t=0
     moyout=moyvert(img,n);
     end
-    
-    
+    %on enleve les nan de la moyenne, pour ressortir moyout(debut:fin)
+    debut=1;
+    fin=size(moyout);
+    i=2;
+%         while((moyout(i)==nan)&(i<fin))
+%             i=i+1;
+%         end
+%         debut=i-1
+%         while((moyout(i)~=nan)&(i<fin))
+%             i=i+1;
+%         end
+%         fin=i
+%         moyout(i)
+%         moyout(i-1)
 else
     error('n est plus grand que l image, prenez un n plus petit')
+    moyout=0;
 end
 
