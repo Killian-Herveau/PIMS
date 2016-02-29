@@ -138,7 +138,7 @@ if(n<x)
                         CHEMIN(xn,yn)=maximg;
                     
                     end 
-                    positions(moyY,:)=[xp,yp];
+                    positions(moyY,:)=[round(xp+n*sin(d)/2),round(yp+n*cos(d)/2)];
                     departx=departx-t*pasy; %décalage de la droite
                     if(departx>2*ximage)|(departx<ximage) %si on sort de l'image
                         break
@@ -170,7 +170,7 @@ if(n<x)
                         img(xn,yn)*(modx+mody))/4; 
 
                     end 
-                    positions(moyY,:)=[xp,yp];
+                    positions(moyY,:)=[round(xp+n*sin(d)/2),round(yp+n*cos(d)/2)];
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx>2*ximage)|(departx<ximage) %si on sort de l'image
                         break
@@ -222,7 +222,7 @@ if(n<x)
                         % enregistre le chemin parcouru (optionnel)
 
                     end 
-                    positions(moyY,:)=[xp,yp];
+                    positions(moyY,:)=[round(xp+n*sin(d)/2),round(yp+n*cos(d)/2)];
                     moyY=moyY+1; %on calcule la prochaine moyenne
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx-n*sind(d)+2>2*ximage)|(departx<ximage) %si on sort de l'image
@@ -254,7 +254,7 @@ if(n<x)
                         img(xn,yn)*(modx+mody))/4; 
 
                     end 
-                    positions(moyY,:)=[xp,yp];
+                    positions(moyY,:)=[round(xp+n*sin(d)/2),round(yp+n*cos(d)/2)];
                     moyY=moyY+1; %on calcule la prochaine moyenne
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx-n*sind(d)+2>2*ximage)|(departx<ximage) %si on sort de l'image
