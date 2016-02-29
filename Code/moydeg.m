@@ -1,4 +1,4 @@
-function [ moyout ] = moydegtest(image,d,n,centrex,centrey,pasx,pasy,plot)
+function [ moyout ] = moydeg(image,d,n,centrex,centrey,pasx,pasy,plot)
 % Calcule la moyenne selon des segments orientés, en passant par un centre
 
 % Renvoie les moyennes de segments orientés d'une image, en suivant un pas, en prenant les pixels sur un angle de d degrés (par

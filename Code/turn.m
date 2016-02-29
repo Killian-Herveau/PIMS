@@ -2,7 +2,7 @@
 %SUR UNE même LIGNE les deux pics portent la même info DONC on peut les
 %moyenner.
 alpha=11.2;
-pas=25;
+pas=100;
 k=0;
 p=zeros(4,1+1400/pas);
 

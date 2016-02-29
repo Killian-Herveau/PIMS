@@ -37,4 +37,3 @@ f2=abs(im2);
 f_im = moydeg(f2,-alpha,6,61,61,0.5,0.5);
 
 end
-
