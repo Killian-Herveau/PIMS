@@ -1,7 +1,7 @@
 function [ y1,p ] = approxpol2( data, D,k )
 %data doit être un vecteur 2 colonnes et plein de lignes
 %   D= degré du polynome
-
+% k=> 1 si on veut ploter
 x=data(:,1);
 y=data(:,2);
 d=size(x);

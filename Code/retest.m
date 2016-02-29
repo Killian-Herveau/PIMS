@@ -1,4 +1,4 @@
-img=bin2mat('Projet 2A\Mesures\STACK=0000_IM=00070_Z=000700.2Ddbl');
+img=bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00070_Z=000700.2Ddbl');
 alpha=11.2;
 im=masque_rephase(img);
 [x,y]=size(img);

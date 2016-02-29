@@ -12,13 +12,13 @@ function [ image_masquee ] = masque_hg( img,c,a,s,offset,k)
 % img: hypergaussienne
 %%
 
-
+dim=size(img);
 
 
 % fid = fopen(name_Z(fpath,Z) ,'r');
 % size=fread(fid,[1,2],'*ubit32','ieee-be'); %retourne [x,y]
 % imgor=fread(fid,size,'*float64','ieee-be'); % donne la matrice de l'image
-i = hgaussp(size(img),c,a,s,offset,k);
+i = hgaussp(dim,c,a,s,offset,k);
 image_masquee = img.*i;
 
 end
