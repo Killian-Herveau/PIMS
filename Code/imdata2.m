@@ -1,5 +1,6 @@
 function [ img ] = imdata2(dossier,numero,im)
 %imdata :renvoie l'image en position "numero" dans le dossier Mesures ou Calibration
+%en effectuant un masque_rephase
 %Createur: moi
 %ENTREES:
 % dossier: mettre M ou 1 pour mesures et C ou 0 pour Calibration

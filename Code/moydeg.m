@@ -1,4 +1,4 @@
-function [ moyout ] = moydegtest(image,d,n,centrex,centrey,pasx,pasy,plot)
+function [ moy ] = moydegtest(image,d,n,centrex,centrey,pasx,pasy,plot)
 % Calcule la moyenne selon des segments orientés, en passant par un centre
 
 % Renvoie les moyennes de segments orientés d'une image, en suivant un pas, en prenant les pixels sur un angle de d degrés (par
@@ -256,14 +256,14 @@ if(n<x)
                     end
                 end 
             end
-        moyout=moy/(round((n-1)/pasx+0.5));
+        moy=moy/(round((n-1)/pasx+0.5));
         
         else
             error('n ou l"angle donne est trop grand')
         end
     elseif(t==0)
     warning('langle etant nul on utilise moyvert'); %cas t=0
-    moyout=moyvert(img,n);
+    moy=moyvert(img,n);
     end
     
     

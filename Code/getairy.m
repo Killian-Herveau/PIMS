@@ -7,7 +7,8 @@ function [ nairy,vimgout ] = getairy( img )
 %   -nimg: nombre de taches differentes detectees
 %   -vimgout: vecteur des differentes images detectees
 
-
+col=mean(img);
+line=mean(img');
 
 
 
