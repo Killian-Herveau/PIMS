@@ -1,16 +1,17 @@
-function [ p ] = fit_gauss(x,y)
-%approxgauss4: renvoie les coefficients correspondant à l'approximation d'une
-%gaussienne avec offset
-%de la forme y=A+Bexp((x-D)^2)/(2s*s)
+function [ p ] = fit_2gauss(x,y)
+%: renvoie les coefficients correspondant à l'approximation de deux
+%gaussiennes sur une image, avec offset
+%de la forme y=A+Bexp((x-D)^2)/(2s*s)   + A'+B'exp((x-D')^2)/(2s'*s')
 %Entrees:
-%   x et y: données à approximer
+%   img: données à approximer
+%Sortie:
 %   p0: coefficients autours desquels on va chercher la bonne approximation
 %       p0(1) -> offset selon y => A
 %       p0(2) -> amplitude
 %       p0(3) -> moyenne
 %       p0(4) -> ecart type
 %%
-
+[x,y]=size(img);
 %Calcul des coefficients probables
 p0(1)=min(y);
 [p0(2),i]=max(y);
