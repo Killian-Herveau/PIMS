@@ -1,4 +1,3 @@
-
 function [ moy ] = moydeg(image,d,n,centrex,centrey,pasx,pasy,plot)
 
 % Calcule la moyenne selon des segments orientés, en passant par un centre
@@ -45,15 +44,11 @@ else
     pasx=1;
 end
 
-
-
 if (exist('pasy','var'))
     pasy=pasy;
 else
     pasy=1;
 end
-
-
 
 %calcul des paramètres
 

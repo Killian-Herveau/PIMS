@@ -1,4 +1,4 @@
-function [ id,m ] = smooth_max( f )
+function [ id ] = smooth_max( f )
 %f est la fonction dont on veut trouver la position du smooth_max
 %smooth_max va lisser avec une spline, trouver son equation polynomiale et trouver
 %analytiquement ses racines
