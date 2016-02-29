@@ -1,5 +1,5 @@
 
-function [ moy ] = moydeg(image,d,n,centrex,centrey,pasx,pasy,plot)
+function [ moy ,positions] = moydeg_pos(image,d,n,centrex,centrey,pasx,pasy,plot)
 
 % Calcule la moyenne selon des segments orientés, en passant par un centre
 
@@ -97,7 +97,7 @@ end
 moyY=1; %colonne de la moyenne
 [x,y]=size(img); %x vertical et y horizontal
 moy=zeros(round(-0.5+(yimage)/pasy),1);      % Moy vert
-
+positions=zeros(round(-0.5+(yimage)/pasy),2);
 
 if(n<x)
     if(t>0)
@@ -138,6 +138,7 @@ if(n<x)
                         CHEMIN(xn,yn)=maximg;
                     
                     end 
+                    positions(moyY,:)=[xp,yp];
                     departx=departx-t*pasy; %décalage de la droite
                     if(departx>2*ximage)|(departx<ximage) %si on sort de l'image
                         break
@@ -169,6 +170,7 @@ if(n<x)
                         img(xn,yn)*(modx+mody))/4; 
 
                     end 
+                    positions(moyY,:)=[xp,yp];
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx>2*ximage)|(departx<ximage) %si on sort de l'image
                         break
@@ -220,6 +222,7 @@ if(n<x)
                         % enregistre le chemin parcouru (optionnel)
 
                     end 
+                    positions(moyY,:)=[xp,yp];
                     moyY=moyY+1; %on calcule la prochaine moyenne
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx-n*sind(d)+2>2*ximage)|(departx<ximage) %si on sort de l'image
@@ -251,6 +254,7 @@ if(n<x)
                         img(xn,yn)*(modx+mody))/4; 
 
                     end 
+                    positions(moyY,:)=[xp,yp];
                     moyY=moyY+1; %on calcule la prochaine moyenne
                     departx=departx-t*pasy; %décalage de la droite
                      if(departx-n*sind(d)+2>2*ximage)|(departx<ximage) %si on sort de l'image
