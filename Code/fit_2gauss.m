@@ -1,20 +1,22 @@
-function [ p ] = fit_2gauss(x,y)
+function [ p ] = fit_2gauss(img)
 %: renvoie les coefficients correspondant à l'approximation de deux
 %gaussiennes sur une image, avec offset
 %de la forme y=A+Bexp((x-D)^2)/(2s*s)   + A'+B'exp((x-D')^2)/(2s'*s')
 %Entrees:
-%   x,y: données à approximer
+%   img: données à approximer
 %Sortie:
 %   p0: coefficients autours desquels on va chercher la bonne approximation
 %       p0(1) -> offset selon y => A
-%       p0(2) -> amplitude
-%       p0(3) -> moyenne
-%       p0(4) -> ecart type
+%       p0(2) -> amplitude B
+%       p0(3) -> moyenne D
+%       p0(4) -> ecart type s
 %%
 [x,y]=size(img);
+col=mean(img); %moyenne sur les colonnes
+lines=mean(img');
 
 
-%Calcul des coefficients probables
+%Calcul des coefficients probables pour la première gaussienne
 p0(1)=min(y);
 [p0(2),i]=max(y);
 p0(2)=p0(2)-min(y);
