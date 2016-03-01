@@ -1,4 +1,4 @@
-function [ f_im ] = frange_detect( img,alpha )
+function [ f_im,positions ] = frange_detect( img,alpha )
 %   img = image à traiter
 %   x = position en x de la gaussienne fittant au mieu la tâche
 %   y = position en y ---
@@ -34,6 +34,6 @@ f2=abs(im2);
 %les deux (horz et vert) donnent la même valeur ou y a-t-il un offset
 %permanent ? vérifier. REPONSE : Offset dû peut être au sampling
 % Voir maintenant avec les mesures : même offset ?
-f_im = moydeg(f2,-alpha,6,61,61,0.5,0.5);
+[f_im,positions] = moydeg_pos(f2,-alpha,6,61,61,0.5,0.5);
 
 end
