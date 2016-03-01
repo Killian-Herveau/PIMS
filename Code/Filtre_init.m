@@ -4,10 +4,6 @@ function [images]=Filtre_init(im,focus,lambda)
 % -centrage
 % -Wiener par la calibration
 
-
-
-
-
 imcal=imdata('c',focus);
 im=masque_rephase(im);
 if ~(exist('lambda','var'))
@@ -16,12 +12,6 @@ end
 im=abs(FiltreWiener(imcal,im,lambda));
 im=imcal-im;
 im=removegauss(im)
-
-
-
-
-
-
 
 
 end

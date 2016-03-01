@@ -1,5 +1,5 @@
-img=bin2mat('Projet 2A\Mesures\STACK=0000_IM=00070_Z=000700.2Ddbl');
-imgcal=bin2mat('Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
+img=bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00070_Z=000700.2Ddbl');
+imgcal=bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
 [x,y]=size(img);
 figure;imshow2(img);title('img de base');
 img=masque_rephase(img);

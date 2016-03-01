@@ -26,6 +26,7 @@ f11=f1(1:length(f1)/2);%freq 'négatives'
     p1=posi1(ka,:)*(1-k1)+posi1(ka+1,:)*(k1);%renvoie x,y correspondant
     pos(1)=sqrt((p1(1)-61)^2+(p1(2)-61)^2);
    
+    
     %% POUR POS(2)
 %     kb=ceil(length(f1)/2-pos(2));% round(L/2-pos)
 %     k1=kb-(length(f1)/2-pos(2));%juste le 0.X
