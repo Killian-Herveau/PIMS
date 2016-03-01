@@ -98,7 +98,7 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000700.2Ddbl');
+img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000100.2Ddbl');
 % figure;
 % imshow2(img1);
 %size(img1)
@@ -108,13 +108,8 @@ figure;
 imshow2(im);
 p = fit_gauss2D(img1);
 im_seuil = zeros(120, 120);
-[centre pos] = max(im(:));
-[x y] = ind2sub(size(im), pos);
-for i=x-2:x+2
-    for j = y-2:y+2
-        im(i,j) = 0;
-    end
-end
+
+
 comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
 
 for i=1:120
@@ -126,7 +121,6 @@ for i=1:120
         end
     end
 end
-
 
 im_seuil = bwmorph(im_seuil, 'remove', Inf);
 figure; 
