@@ -131,6 +131,7 @@ title('seuillage adap fit-gauss2D');
 
 barycentre = zeros(2,num);
 for ii=1:num
+    
     im_seuil=(L==ii);
     [y,x] = find(im_seuil);
     barycentre(1,ii) = mean(x);
@@ -139,8 +140,12 @@ end;
 figure(1);
 line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
 
+for ii=1:num-1
+    d(ii) = pdist([barycentre(1,ii),barycentre(2,ii);barycentre(1,ii+1), barycentre(2,ii+1)], 'euclidean');
+end;
+ d
 % %% seuillage adaptatif avec fit polynomial -> il est pas très adapté!
-% im = zeros(120,120);
+% im = zeros(120,120);s
 % x = zeros(14400,1);
 % y = zeros(14400,1);
 % z = zeros(14400,1);
