@@ -12,7 +12,6 @@ for i=0:pas:1400
 %     pile au centre, c'est tout ce qu'on a besoin de savoir
     k=k+1;
     p(:,k)=img_maxfourier2(img,alpha);
-
 %     plot(1:length(f1),f1,'g');hold on
 %     plot(1:length(f2),f2,'r');hold on
 end
@@ -20,8 +19,8 @@ end
 % c22=abs(c22-length(f2)/2);
 
 figure
-plot(0:ceil(1400/(length(p(1,:)))):1400,p(1,:),'r');hold on
-% plot(0:ceil(1400/(length(p(1,:)))):1400,p(2,:));hold on
+plot(0:ceil(1400/(length(p(1,:)))):1400,p(1,:),'r');figure
+ plot(0:ceil(1400/(length(p(1,:)))):1400,p(2,:));hold on
 %plot(0:pas:1400,(p(3,:)+p(4,:))/2);
 % plot(0:ceil(1400/(length(p(1,:)))):1400,p(1,:),'r');hold on
 % plot(0:ceil(1400/(length(p(2,:)))):1400,p(2,:));%title('répartition de la position de max des freq en fonction de z avec alpha = 11.2');

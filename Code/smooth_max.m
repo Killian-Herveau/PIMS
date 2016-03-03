@@ -14,7 +14,7 @@ t=spl(x);
 id=id/10;
 pp=fit_gauss(x',t);
 id=pp(3);
-
+plot(t);
 % G=gaussian_offset(pp(1),pp(2),pp(3),pp(4),x);
 % plot(x,G);hold on
 % 
