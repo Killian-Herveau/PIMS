@@ -12,7 +12,7 @@ p=zeros(4,56);
 minou=zeros(56,1);
 owe=zeros(56,1);
 for i=1:56
-    C(:,:,i)=bin2mat(name_Z('Projet 2A\Calibration\STACK=0001_IM=00001_Z=',(i-1)*25));
+    C(:,:,i)=bin2mat(name_Z('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=',(i-1)*25));
     C(:,:,i)=masque_rephase(C(:,:,i));
 %     C(:,:,i)=abs(FiltreWiener(C(:,:,i),C(:,:,i),lambda));
     t(:,i)=moydeg(C(:,:,i),alpha,5,61,61);

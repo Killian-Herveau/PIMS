@@ -1,7 +1,7 @@
 %myui('Projet 2A\Mesures\STACK=0000_IM=00070_Z=','Projet 2A\Calibration\STACK=0001_IM=00001_Z=',100);
 
-img=bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00070_Z=000700.2Ddbl');
-imcal=bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
+img=bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00070_Z=000900.2Ddbl');
+imcal=bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000900.2Ddbl');
 figure
 subplot(1,2,1);
     img=masque_rephase(img);
