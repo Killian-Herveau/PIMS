@@ -1,6 +1,6 @@
-function [ imgout] = removefilter(img,bplot)
-%On utilise fft2 pour l'instant, modif a faire:
-%utiliser fft22
+function [ imgout] = removefilter2(img,bplot)
+%On utilise fft pour l'instant, modif a faire:
+%utiliser fft2
 %trouver automatiquement les pics à enlever pour le réseau.
 
 % Ote d'une image la tâche periodique issu de la lumiere de fond passant
@@ -36,19 +36,12 @@ if(bplot)
     imshow2(img);
     title('image originale');
 end
-img=fft2(img);
+img=fft(img);
 
 moy=moyhor(abs(img),5);
 if(bplot)
     subplot(2,2,2);
-%     plot(smooth(moy,15))
-    F = abs(fftshift(img)); % Get the magnitude
-    F = log(F+1); % Use log, for perceptual scaling, and +1 since log(0) is undefined
-    F = mat2gray(F); % Use mat2gray to scale the image between 0 and 1
-
-    imshow(F,[]); % Display the result
-    
-    
+    plot(moy)
     title('moy');
 end
 % La moyenne nous indique les pic de frequence:
@@ -88,11 +81,10 @@ end
 if(bplot)
     subplot(2,2,4);
     moy=moyhor(abs(img),5);
-%     plot(moy);
-    
+    plot(moy);
     title('moy');
 end
-imgout=((ifft2(img)));
+imgout=((ifft(img)));
 
 if(bplot)
 figure;
