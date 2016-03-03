@@ -1,6 +1,6 @@
 function [ imgout] = removefilter(img,bplot)
-%On utilise fft2 pour l'instant, modif a faire:
-%utiliser fft22
+%On utilise fft2 pour l'instant, Dans ce removefilter on essaye fft2
+%... mais du coup faut des gaussiennes pour enlever les trucs
 %trouver automatiquement les pics à enlever pour le réseau.
 
 % Ote d'une image la tâche periodique issu de la lumiere de fond passant
@@ -26,7 +26,7 @@ if (exist('bplot','var'))
 else
     bplot=0;
 end
-
+    [x,y]=size(img);
 %on va enlever les grilles du reseau dues au fond: passement par fourier et
 %application d'une hypergaussienne verticale
 
@@ -38,24 +38,26 @@ if(bplot)
 end
 img=fft2(img);
 
-moy=moyhor(abs(img),5);
+moy=moyhor(abs(img),x/2);
 if(bplot)
     subplot(2,2,2);
 %     plot(smooth(moy,15))
-    F = abs(fftshift(img)); % Get the magnitude
-    F = log(F+1); % Use log, for perceptual scaling, and +1 since log(0) is undefined
-    F = mat2gray(F); % Use mat2gray to scale the image between 0 and 1
-
-    imshow(F,[]); % Display the result
+    imshowf(fftshift(img),1);
     
     
     title('moy');
 end
 % La moyenne nous indique les pic de frequence:
 %on supr la frequence a -268 et 268.
-    [x,y]=size(img);
+
     G=zeros(x,y);
-    G2=zeros(x,y);
+    G2=G;
+    G3=G;
+    G4=G;
+    G5=G;
+    G6=G;
+    G7=G;
+    G8=G;
 %     offset=min(min(img));
     s=1.15; %variance....
     k=10; %puissance de l'hypergaussienne
@@ -85,17 +87,17 @@ end
 %     imshow2(1-G);
     img=img.*(1-G).*(1-G2).*(1-G3).*(1-G4).*(1-G5).*(1-G6).*(1-G7).*(1-G8);
     
-if(bplot)
-    subplot(2,2,4);
-    moy=moyhor(abs(img),5);
-%     plot(moy);
-    
-    title('moy');
-end
+% if(bplot)
+%     subplot(2,2,4);
+%     moy=moyhor(abs(img),x/2);
+% %     plot(moy);
+%     
+%     title('moy');
+% end
 imgout=((ifft2(img)));
 
 if(bplot)
-figure;
+subplot(2,2,4);
 imshow2(real(imgout));
 title('Image finale');
 end

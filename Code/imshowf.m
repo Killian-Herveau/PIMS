@@ -28,10 +28,7 @@ function [] = imshowf(img,amp_or_phase)
 
         subplot(1,2,2);
         imagesc(angle(img));  colormap(gray);
-        title('Phase');   
-        
+        title('Phase');       
     end
-    
-
 
 end
