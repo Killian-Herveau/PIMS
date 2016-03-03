@@ -98,28 +98,63 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000700.2Ddbl');
+img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000100.2Ddbl');
 % figure;
 % imshow2(img1);
 %size(img1)
 im = zeros(120, 120);
+% [centre pos] = max(img1(:));
+% [x y] = ind2sub(size(img1), pos);
+% for i=x-0:x+0
+%     for j = y-0:y+0
+%         img1(i,j) = 0;
+%     end
+% end
 im = masque_rephase(img1);
 figure;
 imshow2(im);
-p = fit_gauss2D(img1);
-im_seuil = zeros(120, 120);
-[centre pos] = max(im(:));
-[x y] = ind2sub(size(im), pos);
+% [centre pos] = max(img1(:));
+% [x y] = ind2sub(size(img1), pos);
+% for i=x-2:x+2
+%     for j = y-2:y+2
+%         im(i,j) = 0;
+%     end
+% end
+[centre pos] = max(img1(:));
+[x y] = ind2sub(size(img1), pos);
 for i=x-2:x+2
-    for j = y-2:y+2
-        im(i,j) = 0;
+    for j = y-1:y+1
+        img1(i,j) = 0;
+        %im(i,j) = 0;
     end
 end
+[centre2 pos2] = max(im(:));
+[x2 y2] = ind2sub(size(im), pos2);
+% for i = x2-2:x2+2
+%     for j = y2-2:y2+2
+%         img1(i,j) = img1(x2,y2);
+%         im(i,j) = im(x2,y2);
+%     end
+% end
+img1(x,y) = img1(x2,y2);
+%im(x,y) = im(x2,y2);
+
+p = fit_gauss2D(img1);
+im_seuil = zeros(120, 120);
+% [centre pos] = max(im(:));
+% [x y] = ind2sub(size(im), pos);
+% for i=x-2:x+2
+%     for j = y-2:y+2
+%         im(i,j) = 0;
+%     end
+% end
 comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
+% figure;
+% imshow2(comparaison);
 
 for i=1:120
     for j=1:120
-        if im(i,j)>comparaison(i,j)
+        if im(i,j)>=comparaison(i,j)
             im_seuil(i,j) = 1;
         else 
             im_seuil(i,j) = 0;
@@ -151,8 +186,8 @@ line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'colo
 
 for ii=1:num-1
     d(ii) = pdist([barycentre(1,ii),barycentre(2,ii);barycentre(1,ii+1), barycentre(2,ii+1)], 'euclidean');
+    d(ii)
 end;
- d;
 % %% seuillage adaptatif avec fit polynomial -> il est pas très adapté!
 % im = zeros(120,120);s
 % x = zeros(14400,1);
