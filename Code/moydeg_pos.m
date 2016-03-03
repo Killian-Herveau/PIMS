@@ -1,4 +1,3 @@
-
 function [ moy ,positions] = moydeg_pos(image,d,n,centrex,centrey,pasx,pasy,plot)
 
 % Calcule la moyenne selon des segments orientés, en passant par un centre
