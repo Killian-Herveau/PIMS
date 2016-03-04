@@ -18,13 +18,12 @@ f11(1:ceil(length(f1)/2))=f1(1:ceil(length(f1)/2));%freq 'négatives'
 
     f22=f2(length(f2)/2:length(f2));
     f21=f2(1:length(f2)/2); 
-    pos(1)=119.2-smooth_max2(f11);
+    pos(1)=119.2-smooth_max2(f11);%Trouve le max de garry
     pos(2)=smooth_max2(f12);
     pos_0 =+pos(1) +(pos(2)-pos(1))/2;
     pos(3)=smooth_max(flipud(f21));
     pos(4)=smooth_max(f22);
-    
-    %119.2
+
     %% POUR POS(1)
     %norm de posi1 et pos(1) la position depuis le premier point
     pos(1) = length(f1)/2-pos(1);
