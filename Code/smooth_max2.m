@@ -1,21 +1,24 @@
-function [ id ] = smooth_max( f )
+function [ id ] = smooth_max2( f )
 %f est la fonction dont on veut trouver la position du smooth_max
 %smooth_max va lisser avec une spline, trouver son equation polynomiale et trouver
 %analytiquement ses racines
 % [y,p]=fourier2pol(f); % bad idea
-
-x=33:106;%c'est arbitraire, c'est pour voir mieux où est le max et améliorer le fit
+[z,zz]=max(f);
+if(zz<120)
+    x=47-40:47+40;%c'est arbitraire, c'est pour voir mieux où est le max et améliorer le fit
+else
+    x=192-40:192+40;
+end
 f1=f(x);
 %spl est un 'cfit'
 spl=createFitSpl(x,f1');
 %cette ligne permet d'extraire les valeurs de la spline
 t=spl(x);
-[m id] = max(t);
-id=id/10;
 pp=fit_gauss(x',t);
 id=pp(3);
 
 % plot(t);
+
 % G=gaussian_offset(pp(1),pp(2),pp(3),pp(4),x);
 % plot(x,G);hold on
 % 

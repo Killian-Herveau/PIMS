@@ -21,7 +21,7 @@ for i=0:pas:1400
 end
 
 %On trace la courbe sigma = f(maxfourier)
-% étant donné un point, trouver le plus proche point de la courbe.
+% étant donné un point, trouver le 
 figure
 imagesc(par_gauss(5,:).*p(1,:));
 
