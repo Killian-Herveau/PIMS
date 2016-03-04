@@ -11,16 +11,7 @@ if (type == 0)
         im = masque_rephase(img1);
         %figure;
         %imshow2(im);
-        % On remplace le pixel central par la moyenne des pixels
-        % l'entourant
-        moyenne = 0;
-        for i=-1:1
-            for j=-1:1
-                moyenne = moyenne + img1(61+i,61+j);
-            end
-        end
-        moyenne = (moyenne-img1(61,61))/8;
-        img1(61,61) = moyenne;
+        
         p = fit_gauss2D(img1);
         im_seuil = zeros(120, 120);
         comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);

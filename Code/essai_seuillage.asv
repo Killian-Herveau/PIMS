@@ -148,24 +148,12 @@ imshow2(im);
 % ft = fittype('a+exp((x-b)^2+(y-c)^2)/((2*d)^2)', 'options', fo)
 % [curve2, gof2] = fit(im, z, ft)
 
-% On remplace le pixel central par la moyenne des pixels
-        % l'entourant
-        moyenne = 0;
-        for i=-1:1
-            for j=-1:1
-                moyenne = moyenne + img1(61+i,61+j);
-            end
-        end
-        moyenne = (moyenne-img1(61,61))/8;
-        img1(61,61) = moyenne;
-
-poids = ones(1,120*120);
-for i=60:61
-    poids(1,i) = 0.05;
-
+poids = ones(120,1);
+for i=59:63
+    poids(i) = 0.25;
 end
 
-p = fit_gauss2D(im2,poids);
+%p = fit_gauss2D(im2);
 im_seuil = zeros(120, 120);
 % [centre pos] = max(im(:));
 % [x y] = ind2sub(size(im), pos);
@@ -191,45 +179,45 @@ comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
 % hold off
 
 
-figure;
-imshow2(comparaison);
+% figure;
+% imshow2(comparaison);
 
-for i=1:120
-    for j=1:120
-        if im(i,j)>comparaison(i,j)
-            im_seuil(i,j) = 1;
-        else 
-            im_seuil(i,j) = 0;
-        end
-    end
-end
-
-
-im_seuil = bwmorph(im_seuil, 'remove', Inf);
-figure; 
-imshow(im_seuil,'InitialMagnification','fit');
-title('seuillage adap fit-gauss2D');
-
-%Bw = edge(im_seuil, 'canny', [0.1 0.5],3);
-%figure;
-%imagesc(Bw);
-[L,num] = bwlabel(im_seuil,8);
-
-barycentre = zeros(2,num);
-for ii=1:num
-    
-    im_seuil=(L==ii);
-    [y,x] = find(im_seuil);
-    barycentre(1,ii) = mean(x);
-    barycentre(2,ii) = mean(y);
-end;
-figure(1);
-line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
-
-for ii=1:num-1
-    d(ii) = pdist([barycentre(1,ii),barycentre(2,ii);barycentre(1,ii+1), barycentre(2,ii+1)], 'euclidean');
-    d(ii)
-end;
+% for i=1:120
+%     for j=1:120
+%         if im(i,j)>=comparaison(i,j)
+%             im_seuil(i,j) = 1;
+%         else 
+%             im_seuil(i,j) = 0;
+%         end
+%     end
+% end
+% 
+% 
+% im_seuil = bwmorph(im_seuil, 'remove', Inf);
+% figure; 
+% imshow(im_seuil,'InitialMagnification','fit');
+% title('seuillage adap fit-gauss2D');
+% 
+% %Bw = edge(im_seuil, 'canny', [0.1 0.5],3);
+% %figure;
+% %imagesc(Bw);
+% [L,num] = bwlabel(im_seuil,8);
+% 
+% barycentre = zeros(2,num);
+% for ii=1:num
+%     
+%     im_seuil=(L==ii);
+%     [y,x] = find(im_seuil);
+%     barycentre(1,ii) = mean(x);
+%     barycentre(2,ii) = mean(y);
+% end;
+% figure(1);
+% line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
+% 
+% for ii=1:num-1
+%     d(ii) = pdist([barycentre(1,ii),barycentre(2,ii);barycentre(1,ii+1), barycentre(2,ii+1)], 'euclidean');
+%     d(ii)
+% end;
 % %% seuillage adaptatif avec fit polynomial -> il est pas très adapté!
 % im = zeros(120,120);s
 % x = zeros(14400,1);
