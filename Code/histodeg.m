@@ -9,7 +9,10 @@ function [ moy,pas ] = histodeg(image,angle,epaisseur,ic,jc,ne,nhisto )
 % ic et jc: coordonnees (ligne-colonne) du point image <=> centre de l'histogramme.
 % ne: nombre d'echantillon pour une valeur de l'histo
 % nhisto: nombre d'abscisse pour l'histogramme
-% 
+% (le milieu de l'histogramme est en round(nhisto/2), decalage de 0.5 si
+% pair)
+
+
 % Sorties:
 % moy: histogramme de l'image
 % pas: un delta d'abscisse de 1 correspond à pas pixel image
@@ -326,6 +329,7 @@ if(angle>0) dir(2)=-dir(2);end
 % image(round(DEPi),round(DEPj))=255;
 startmoy=round(nv/2); %valeur centrale de l'histogramme
 distance=norm([DEPi,DEPj]-P); %parcourue par l'histogramme de chaque coté.
+
 
 %calcul de la valeur centrale:
 depi=DEPi;
