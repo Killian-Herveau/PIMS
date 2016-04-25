@@ -1,13 +1,11 @@
 % figure
 %SUR UNE même LIGNE les deux pics portent la même info DONC on peut les
 %moyenner.
-k=0;
 alpha=11.2;
 pas=25;
 p=zeros(4,1+1400/pas);
 pos_0=zeros(1,1+1400/pas);
 par_gauss=zeros(5,1+1400/pas);
-
 for i=0:pas:1400
     img=imdata2(0,i);
 %     [x,y]=findXY(img); pas besoin dans fourier l'origine des freq est

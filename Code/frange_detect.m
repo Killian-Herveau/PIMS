@@ -34,6 +34,7 @@ f2=abs(im2);
 %les deux (horz et vert) donnent la même valeur ou y a-t-il un offset
 %permanent ? vérifier. REPONSE : Offset dû peut être au sampling
 % Voir maintenant avec les mesures : même offset ?
+
 [f_im,positions] = moydeg_pos(f2,-alpha,6,61,61,0.5,0.5);
 
 end

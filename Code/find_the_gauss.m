@@ -19,5 +19,6 @@ im=masque_hg(im,[ph(3),pv(3)],1,3*ph(4),0,15);
 %microscope, donc le reste n'est que du bruit parasite pour le fit.
 g=passebas_hg2D(im,23.065,10);
 p1=fit_gauss2D(g);
+
 end
 
