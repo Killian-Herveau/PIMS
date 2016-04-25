@@ -6,13 +6,13 @@ scrsz = get(groot,'ScreenSize');
     global angle 
     angle=-78;
     epaisseur=6;
-    ic=50;
-    jc=50;
+    ic=100;
+    jc=100;
     pas=0.5;
     image=imread('C:\Users\ADRIEN\Documents\Images\rickMorty\devil2.png');
 %     image=imread('C:\Users\ADRIEN\Documents\Images\Rude.jpg');
     
-    image=(image(:,:,1)+image(:,:,2)+image(:,:,3))/3/.255;
+    image=double(image(:,:,1)+image(:,:,2)+image(:,:,3))/3/.255;
 
    image=image(:,:,1);
    

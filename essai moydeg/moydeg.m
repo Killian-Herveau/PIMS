@@ -287,7 +287,7 @@ if(candidatsg(1)==1) end     %part en haut a gauche
 if(candidatsg(2)==1) invm=1; end      %part en bas a droite
 if(candidatsg(3)==1) invm=1; end      %part en bas a gauche
 if(candidatsg(4)==1) end      %part en haut a droite   P=Pg;
-   image(round(Pg(1)),round(Pg(2)))=255;
+%    image(round(Pg(1)),round(Pg(2)))=255;
 else
    % On part du point droit
    P=Pd;
@@ -296,9 +296,9 @@ if(candidatsd(1)==1) invm=-1; end     %part en haut a droite
 if(candidatsd(2)==1) end     %part en haut a gauche
 if(candidatsd(3)==1) invm=1; end      %part en bas a droite
 if(candidatsd(4)==1) end     %part en bas a gauche
-   image(round(Pd(1)),round(Pd(2)))=255;
+%    image(round(Pd(1)),round(Pd(2)))=255;
 end
-   image(ic,jc)=255; 
+%    image(ic,jc)=255; 
 
 if(angle>0) dir(2)=-dir(2);end
 
@@ -440,6 +440,8 @@ hold on
 subplot(2,2,2)
 plot(moy);
 
+sum
+sum+1
 
 % 
 % %IMAGE GRANDE

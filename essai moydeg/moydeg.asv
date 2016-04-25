@@ -440,8 +440,6 @@ hold on
 subplot(2,2,2)
 plot(moy);
 
-sum
-sum+1
 
 % 
 % %IMAGE GRANDE
