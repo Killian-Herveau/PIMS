@@ -2,6 +2,8 @@ function [ imgout] = removefilter2(imgin,bplot)
 %Notes:
 %On utilise fft et non fft2 -> probleme ?
 
+%Wiener pourrait marcher...
+
 % Ote d'une image la tâche periodique issu de la lumiere de fond passant
 % par le reseau.
 % On passe par Fourier et enleve les pics voulus grâce à une multiplication par

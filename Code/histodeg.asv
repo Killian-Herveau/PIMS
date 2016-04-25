@@ -3,23 +3,19 @@ function [ moy,pas ] = histodeg(image,angle,epaisseur,ic,jc,ne,nhisto )
 %l'histogramme correspond au point ic,jc.
 
 %ENTREES
-% image: image de doubles, dont on va faire l'histogramme 
-% angle: angle (degre) de rotation du parcours de l'histogramme, entre +-90°
-% epaisseur: epaisseur de l'echantillon d'image pris pour le calcul d'une valeur
-% ic et jc: coordonnees (ligne-colonne) du point image <=> centre de l'histogramme.
-% ne: nombre d'echantillon pour une valeur de l'histo
-% nhisto: nombre d'abscisse pour l'histogramme
-% 
-% Sorties:
-% moy: histogramme de l'image
-% pas: un delta d'abscisse de 1 correspond à pas pixel image
+image: image de doubles, dont on va faire l'histogramme 
+angle: angle de
+
+
+
+
 
 
 %ne: nombre de point pris pour le calcul d'une valeur de l'histogramme
 if (exist('ne','var'))
 else ne=20; end
 
-%nhisto ou nv: nombre de point d'abccisse de l'histogramme (impair=mieux)
+%nhisto ou nv: nombre de point d'abcisse de l'histogramme (impair=mieux)
 if (exist('nhisto','var'))
     nv=nhisto;
 else nv=150; end
