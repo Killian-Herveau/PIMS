@@ -55,7 +55,7 @@ if (type == 0)
         %figure(1);
         %line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
         
-        d(i) = pdist([barycentre(1,2),barycentre(2,2);barycentre(1,3), barycentre(2,3)], 'euclidean');
+       % d(i) = pdist([barycentre(1,2),barycentre(2,2);barycentre(1,3), barycentre(2,3)], 'euclidean');
     end
     figure;
     graph = plot( 0 : 25 : 1375, d);
@@ -89,21 +89,21 @@ else
         %imagesc(Bw);
         [L,num] = bwlabel(im_seuil,8);
         
-        barycentre = zeros(2,num);
-        for ii=1:num
-            
-            im_seuil=(L==ii);
-            [y,x] = find(im_seuil);
-            barycentre(1,ii) = mean(x);
-            barycentre(2,ii) = mean(y);
-        end
-        %figure(1);
-        %line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
-        
-        d(i) = pdist([barycentre(1,2),barycentre(2,2);barycentre(1,3), barycentre(2,3)], 'euclidean');
-    end
-    figure;
-    graph = plot(0 : 100 : 1400, d);
+        %barycentre = zeros(2,num);
+%         for ii=1:num
+%             
+%             im_seuil=(L==ii);
+%             [y,x] = find(im_seuil);
+%             barycentre(1,ii) = mean(x);
+%             barycentre(2,ii) = mean(y);
+%         end
+%         %figure(1);
+%         %line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
+%         
+%         d(i) = pdist([barycentre(1,2),barycentre(2,2);barycentre(1,3), barycentre(2,3)], 'euclidean');
+%     end
+%     figure;
+%     graph = plot(0 : 100 : 1400, d);
     
 end
 end
