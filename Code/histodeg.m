@@ -1,10 +1,15 @@
-function [ moy ] = histodeg(image,angle,epaisseur,ic,jc )
+function [ moy ] = histodeg(image,angle,epaisseur,ic,jc,ne,nhisto )
 %Effectue l'histogramme d'une image, selon un angle. Le centre de
 %l'histogramme correspond au point ic,jc.
 
+%ne: nombre de point pris pour le calcul d'une valeur de l'histogramme
+if (exist('ne','var'))
+else ne=20; end
 
-ne=20; %nombre de point pris pour le calcul d'une valeur de l'histogramme
-nv=300; %nombre de point d'abcisse de l'histogramme (impair=mieux)
+%nhisto ou nv: nombre de point d'abcisse de l'histogramme (impair=mieux)
+if (exist('nhisto','var'))
+    nv=nhisto;
+else nv=150; end
 moy=zeros(nv); %contient l'histogramme
 
 %ENTREES:
@@ -69,7 +74,7 @@ if(angle<0)
     if(prod(D>=1))
     candidatsg(4)=1; 
     end
-    candidatsg
+%     candidatsg
     %Les candidats possibles: b et d OU d et c OU a et c.
     if(candidatsg==[0,1,0,1]) candidatsg(2)=0;  end
     if(candidatsg==[1,0,1,0]) candidatsg(1)=0;  end
@@ -440,8 +445,7 @@ hold on
 subplot(2,2,2)
 plot(moy);
 
-sum
-sum+1
+
 
 % 
 % %IMAGE GRANDE
