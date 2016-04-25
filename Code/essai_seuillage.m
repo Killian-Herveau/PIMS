@@ -159,14 +159,14 @@ imshow2(im);
         moyenne = (moyenne-img1(61,61))/8;
         img1(61,61) = moyenne;
 
-% poids = ones(1,120*120);
-% for i=60:61
-%     poids(1,i) = 0.05;
-% 
-% end
+poids = ones(1,120*120);
+for i=60:61
+    poids(1,i) = 0.05;
 
-% p = fit_gauss2D(im2,poids);
-p = fit_gauss2D(im2);
+end
+
+p = fit_gauss2D(im2,poids);
+%p = fit_gauss2D(im2);
 im_seuil = zeros(120, 120);
 % [centre pos] = max(im(:));
 % [x y] = ind2sub(size(im), pos);
