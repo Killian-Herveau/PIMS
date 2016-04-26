@@ -1,5 +1,5 @@
 function [ p1 ] = find_the_gauss( img )
-%img : image à fitter
+%img : image à fitter (imdata pas imdata2)
 %fit l'image img avec une gaussienne 2D
 %   //SORTIE//
 %       p(1) -> offset selon y => A
@@ -29,6 +29,7 @@ im=masque_hg(im,[ph(3),pv(3)],1,3*ph(4),0,15);
 %23.065 est le pix correspond la fréquence max réceptionnée par le 
 %microscope, donc le reste n'est que du bruit parasite pour le fit.
 g=passebas_hg2D(im,23.065,10);
+g=masque_hg(g,[ph(3),pv(3)],1,3*ph(4),0,15);
 p1=fit_gauss2D(g);
 
 end
