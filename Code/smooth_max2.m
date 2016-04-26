@@ -4,7 +4,7 @@ function [ id ] = smooth_max2( f )
 %analytiquement ses racines
 % [y,p]=fourier2pol(f); % bad idea
 [z,zz]=max(f);
-if(zz<120)
+if(zz<121)
     x=47-40:47+40;%c'est arbitraire, c'est pour voir mieux où est le max et améliorer le fit
 else
     x=192-40:192+40;

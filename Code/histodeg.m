@@ -444,23 +444,31 @@ end
 % if(prod(D_>=1)*(D_(1)<=yimage)*(D_(2)<=ximage))
 % image(round(D_(1)),round(D_(2)))=255;
 % end
+% 
+% subplot(1,2,1)
 
-subplot(2,2,1)
-imagesc(image)
+% if angle>0
+%     persistent v;
+%     v=v+1;
+% figure
+% imagesc(image)
+% % 
+% hold on
+% j=1:ximage;
+% plot(j,-t*(j-jc-e*s)+ic+e*c);
+% hold on
+% plot(j,-t*(j-jc+e*s)+ic-e*c);
+% hold on
+% plot(j,-t*(j-jc)+ic);
+% if isempty(v)
+%     v=1;
+% end
+% title(num2str(v));
+% end
 
-hold on
-j=1:ximage;
-plot(j,-t*(j-jc-e*s)+ic+e*c);
-hold on
-plot(j,-t*(j-jc+e*s)+ic-e*c);
-hold on
-plot(j,-t*(j-jc)+ic);
-hold on
 
-
-
-subplot(2,2,2)
-plot(moy);
+% subplot(1,2,2)
+% plot(moy);
 
 
 

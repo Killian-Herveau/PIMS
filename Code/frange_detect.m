@@ -1,4 +1,4 @@
-function [ f_im,positions ] = frange_detect( img,alpha )
+function [ f_im,pas ] = frange_detect( img,alpha )
 %   img = image à traiter
 %   x = position en x de la gaussienne fittant au mieu la tâche
 %   y = position en y ---
@@ -28,13 +28,11 @@ im2=fftshift(fft2(img));
 %traitements
 im2= (1-H2).*G2.*im2;
 f2=abs(im2);
-%fait la moyenne sur les boules d'intérêt, seulement "horizontal"
-%pour le moment, après il faudra faire avec vertical puis faire la moyenne
-%voir faire deux tableaux distincts pour voir les variations relatives :
-%les deux (horz et vert) donnent la même valeur ou y a-t-il un offset
-%permanent ? vérifier. REPONSE : Offset dû peut être au sampling
-% Voir maintenant avec les mesures : même offset ?
 
-[f_im,positions] = moydeg_pos(f2,-alpha,6,61,61,0.5,0.5);
+%fait la moyenne sur les boules d'intérêt, seulement "horizontal"
+%récupère tout 
+[f_im,pas] = histodeg(f2,-alpha,6,61,61,10,2*size(img,1)+1);
+
+% [f_im,positions] = moydeg_pos(f2,-alpha,6,61,61,0.5,0.5);
 
 end
