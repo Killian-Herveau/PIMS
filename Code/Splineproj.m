@@ -1,9 +1,10 @@
-function [ Pc ] = Splineproj(Point,splinex,spliney,pas )
+function [ Pc ] = splineProj(Point,splinex,spliney,pas )
 %Projette un point sur la partie la plus proche d'une courbe (splinex,spliney), en norme.
+%Point: le point un rechercher 
 %splinex: airy
 %spliney: freq
 %pas: pas pour l'echantillonnage spline
-
+%Pc: point le plus proche
 %Note:  dmax: distance max pour la norme. 
 dmax=20;
 

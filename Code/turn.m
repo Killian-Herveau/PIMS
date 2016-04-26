@@ -3,7 +3,7 @@
 %moyenner.
 k=0;
 alpha=11.2;
-pas=50;
+pas=25;
 p=zeros(7,1+1400/pas);
 pos_0=zeros(1,1+1400/pas);
 par_gauss=zeros(5,1+1400/pas);
@@ -23,10 +23,12 @@ end
 %smoother les deux courbes 
 %On trace la courbe sigma = f(maxfourier)
 % étant donné un point, trouver le plus proche point de la courbe.
-spl_Garry=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(5,:),0.00001);figure;
+%%
+spl_Garry=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),0.00001);figure;
 plot(spl_Garry,'g');hold on
-plot(0:ceil(1400/(length(p(1,:)))):1400,p(5,:),'r');title('position de Garry en fonction de z');
-plot(0:ceil(1400/(length(p(1,:)))):1400,p(6,:),'r');
+plot(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),'r');title('position de Garry en fonction de z');
+% plot(0:ceil(1400/(length(p(1,:)))):1400,p(5,:),'r');
+% plot(0:ceil(1400/(length(p(1,:)))):1400,p(6,:),'r');
 figure
 spl_Bob=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:),0.00001);
 plot(spl_Bob,'g');hold on
@@ -38,6 +40,7 @@ X_B=spl_Bob(0:1:1400);
 
 plot(X_B,X_G);title('sigma en fonction de la fréquence max');
 xlabel('Sigma');ylabel('Freq max');
+
 %THAT IS THE BONNE COURBE ! maintenant, à partir des coord (taille tâche + max freq)
 %on doit pouvoir trouver le plus proche point de la courbe = indertermination levée
 
