@@ -1,4 +1,4 @@
-function [  ] = splineProj(Point,splinex,spliney,pasf )
+function [ z_out ] = splineProj(Point,splinex,spliney,pasf )
 %Projette un point sur la partie la plus proche d'une courbe (splinex,spliney), en norme.
 %renvoil'altitude correspondante
 
@@ -52,7 +52,7 @@ while((pas>pasf)*itermax2) %on reduit le pas de plus en plus
                 if(normnow<=normmin)
                     normmin=normnow;
 %                     Pc=[Points(n,:),n*pas];
-                      Pc=[Points(n,:),n];
+                      Pc=[Points(n,:),n*pas];
                 end
             end
         end
@@ -69,7 +69,7 @@ zparcour=zparcour(max(1,n-10):min(length(zparcour),n+10));
 pas=pas/10;
 itermax2=itermax2+1;
 end
-z_out=Pc(3)*pas;
+z_out=Pc(3);
 
 plot(Pc(1),Pc(2),'x')
 hold on
