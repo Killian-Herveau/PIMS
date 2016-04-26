@@ -11,13 +11,13 @@ function [ p1 ] = find_the_gauss( img )
 
 [x,y]=size(img);
 %   on fit1D pour avoir une estimation de la position et de la variance
-M=histodeg(img,90,25,61,61,25,121);%VERTICAL
-M2=histodeg(img,0,25,61,61,25,121);
+M=histodeg(img,90,15,61,61,15,121);%VERTICAL
+M2=histodeg(img,0,15,61,61,15,121);
 M=M(1:120);
 M2=M2(1:120);
 ph=fit_gauss(1:x,M2);
 pv=fit_gauss(1:y,M);
-% plot(M2);hold on;plot(gaussian_offset(ph(1),ph(2),ph(3),ph(4),1:120))
+plot(M2);hold on;plot(gaussian_offset(ph(1),ph(2),ph(3),ph(4),1:120))
 ph=abs(ph);%pour éviter les problèmes de nombre complexe éventuels
 pv=abs(pv);
 %On enlève l'offset

@@ -1,4 +1,4 @@
-function [ moy,pas ] = histodeg(image,angle,epaisseur,ic,jc,ne,nhisto )
+ function [ moy,pas ] = histodeg(image,angle,epaisseur,ic,jc,ne,nhisto )
 %Effectue l'histogramme d'une image, selon un angle. Le centre de
 %l'histogramme correspond au point ic,jc.
 
