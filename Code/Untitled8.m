@@ -5,7 +5,7 @@ imshow2(abs(img(200:400,200:400)))
 title('image type')
 
 
-% % mes=imdata(1,700,5);
+mes=imdata(1,700,5);
 % cal=imdata(0,700);
 % 
 % 

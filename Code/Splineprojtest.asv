@@ -1,8 +1,8 @@
-function [  ] = splineProj(Point,splinex,spliney,pasf )
+function [  ] = splineProjtest(Point,splinex,spliney,pasf )
 %Projette un point sur la partie la plus proche d'une courbe (splinex,spliney), en norme.
 %renvoil'altitude correspondante
 
-%Point: le point a projeter, dont on cherche z en (x,y) soit (airy,freq)
+%Point: le point a projeter, dont on cherche z
 %splinex: airy
 %spliney: freq
 %pas: pas pour l'echantillonnage spline
@@ -13,7 +13,7 @@ function [  ] = splineProj(Point,splinex,spliney,pasf )
 %Note:  dmax: distance max pour la norme. 
 dmax=20;
 itermax=500; %iteration max pour le while
-itermax2=itermax;
+
 
 %Projection d'un point sur le lieu le plus proche de la Spline
 if (exist('pas','var'))
@@ -41,7 +41,7 @@ Pc=double.empty(3,0) %pointx pointy et z
 zparcour=1:l;
 normmin=Inf;
 
-while((pas>pasf)*itermax2) %on reduit le pas de plus en plus    
+while(pas>pasf) %on reduit le pas de plus en plus    
     while(iter<itermax)
         d=(dmin+dmax)/2; %distance pour la norme euclidienne
         ntouche=0; %nombre de points à une distance inferieure à d de P
@@ -52,7 +52,7 @@ while((pas>pasf)*itermax2) %on reduit le pas de plus en plus
                 if(normnow<=normmin)
                     normmin=normnow;
 %                     Pc=[Points(n,:),n*pas];
-                      Pc=[Points(n,:),n];
+                      Pc=[Points(n,:),n]
                 end
             end
         end
@@ -65,11 +65,10 @@ while((pas>pasf)*itermax2) %on reduit le pas de plus en plus
 % ici on a le point le plus proche pour le pas choisi,
 % on prend une borne autour de son z: [z-10*pas,z+10*pas]
 n=Pc(3); % z=n*pas
-zparcour=zparcour(max(1,n-10):min(length(zparcour),n+10));
+zparcour=zparcour(max(1,n-10),min(
 pas=pas/10;
-itermax2=itermax2+1;
+
 end
-z_out=Pc(3)*pas;
 
 plot(Pc(1),Pc(2),'x')
 hold on

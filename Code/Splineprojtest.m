@@ -69,7 +69,6 @@ zparcour=zparcour(max(1,n-10):min(length(zparcour),n+10));
 pas=pas/10;
 itermax2=itermax2+1;
 end
-z_out=Pc(3)*pas;
 
 plot(Pc(1),Pc(2),'x')
 hold on
