@@ -7,6 +7,7 @@ function [ spl_airy,spl_freq,X_A,X_F ] = createCal( alpha,plot )
 %sigma=f(z)
 %plot: affichage des courbes (mettre 1 pour les afficher, rien sinon)
 %
+
 k=0;
 alpha=11.2;
 pas = 25;
@@ -46,5 +47,6 @@ X_A=spl_airy(0:1:1400);
 plot(X_A,X_F);title('Fréquence max en fonction de la taille de la tâche d''Airy');
 xlabel('Sigma');ylabel('Freq max');
 end
+
 end
 
