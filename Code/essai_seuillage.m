@@ -98,7 +98,7 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000650.2Ddbl');
+img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000300.2Ddbl');
 % figure;
 % imshow2(img1);
 %size(img1)
@@ -227,8 +227,8 @@ title('seuillage adap fit-gauss2D');
 barycentre = zeros(2,num);
 for ii=1:num
     
-    im_seuil=(L==ii);
-    [y,x] = find(im_seuil);
+    im_seuil2=(L==ii);
+    [y,x] = find(im_seuil2);
     barycentre(1,ii) = mean(x);
     barycentre(2,ii) = mean(y);
 end;
