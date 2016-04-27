@@ -37,4 +37,5 @@ f21(1:floor(length(f2)/2))=f2(1:floor(length(f2)/2)); %freq 'négatives'
     pos(5)=(pos(1)+pos(2))/2;
     pos(6)=(pos(3)+pos(4))/2;
     pos(7)=(pos(5)+pos(6))/2;
+%     pos=pos./(120*3.24675); %permet de convertir en µm
 end
