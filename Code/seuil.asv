@@ -54,37 +54,24 @@ if (type == 0)
             [y,x] = find(im_seuil);
             barycentre(1,ii) = mean(x);
             barycentre(2,ii) = mean(y);
-            milieu = floor(num/2)
-            if barycentre(1,ii)<62
-                if barycentre(1,ii) > 60 
-                    if barycentre(2,ii)<62
-                        if barycentre(2,ii)>60
-                            milieu = ii;
-                        end 
-                    end
-                end
-            end
-            
         end
         %figure(1);
         %line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'color', [1 0 0]);
         ecar = 150*ones(1,num);
-        %milieu =  floor(num/2);
-        
-        
+        milieu =  floor(num/2);
         for q = 1:milieu-1
-            ecar(1,q) = pdist([barycentre(1,q),barycentre(2,q);barycentre(1,milieu), barycentre(2, milieu)], 'euclidean');
+            ecar(1,q) = pdist([barycentre(1,q),barycentre(2,q);barycentre(1,milieu), barycentre(2,milieu)], 'euclidean');
         end
         
         for q = milieu+1:num
-            ecar(1,q) = pdist([barycentre(1,milieu), barycentre(2, milieu);barycentre(1,q), barycentre(2,q)], 'euclidean');
+            ecar(1,q) = pdist([barycentre(1,milieu),barycentre(2,milieu);barycentre(1,q), barycentre(2,q)], 'euclidean');
         end
         
         d(l) = min(min(ecar(:, :)));
         l = l+1;
     end
     figure;
-    graph = plot(0:25:1375,medfilt1(d, 0));
+    graph = plot(0:25:1375,medfilt1(d, 10));
 else
     for i = 0 : 100 : 1400
         img1 = bin2mat(name_Z('..\..\Projet 2A\Mesures\STACK=0000_IM=00001_Z=',i));

@@ -1,4 +1,4 @@
-%img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000500.2Ddbl');
+%img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000525.2Ddbl');
 %img1 = masque_rephase(img1);
 % im=zeros(120,120);
 % %% seuillage adaptatif
@@ -98,7 +98,7 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
+img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000650.2Ddbl');
 % figure;
 % imshow2(img1);
 %size(img1)
