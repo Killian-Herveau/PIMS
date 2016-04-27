@@ -1,4 +1,4 @@
-plot(gauss)
+plot(y)
 hold on
 plot(hcal)
 xlabel('position pixel')

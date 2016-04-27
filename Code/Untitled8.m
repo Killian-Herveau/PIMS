@@ -3,7 +3,7 @@
 % imshow2(abs(img(200:400,200:400)))
 % 
 % title('image type')
-% cal=bin2mat('D:\FarView\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
+cal1=bin2mat('D:\FarView\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
 % cal=double(imread('C:\Users\ADRIEN\Documents\Images\rickMorty\roue.jpg'));
 % cal=cal(1:120,1:120,3);
 % 
@@ -13,21 +13,24 @@
 % subplot(1,2,2)
 % imshow2(cal2(a:b,a:b))
 
-cal1=imdata(0,700);
-hcal=histodeg2(cal1,-11.2,5,61,61,20,120);
-% subplot(1,2,1)
-% plot(hcal)
+% cal1=imdata(0,700);
+subplot(2,2,1)
+hcal=histodeg2(cal1,0.01,5,61,61,20,120);
+title('Histogramme selon x')
+subplot(2,2,3)
+plot(1:120,hcal)
 xlabel('position pixel')
 ylabel('valeur pixel')
 title('Histogramme selon x')
 
-
-% hcal2=histodeg2(cal1,88.8,5,61,61,20,120);
-% subplot(1,2,2)
-% plot(hcal2)
+subplot(2,2,2)
+hcal2=histodeg2(cal1,89.9,5,61,61,20,120);
+title('Histogramme selon y')
+subplot(2,2,4)
+plot(1:120,hcal2)
 xlabel('position pixel')
 ylabel('valeur pixel')
-% title('Histogramme selon y')
+title('Histogramme selon y')
 
 % cal1=bin2mat('D:\FarView\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000300.2Ddbl');
 % cal2=bin2mat('D:\FarView\Projet 2A\Calibration\STACK=0000_IM=00001_Z=000700.2Ddbl');
