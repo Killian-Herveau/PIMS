@@ -25,7 +25,7 @@ end
 %%
 spl_Garry=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),0.00001);figure;
 plot(spl_Garry,'g');hold on
-plot(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),'r');title('position de Garry en fonction de z');
+plot(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),'r');title('position de f_max en fonction de z');
 
 figure
 spl_Bob=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:),0.00001);
@@ -37,7 +37,7 @@ X_G=spl_Garry(0:1:1400);
 X_B=spl_Bob(0:1:1400);
 
 plot(X_B,X_G);title('sigma en fonction de la fréquence max');
-xlabel('Sigma');ylabel('Freq max');
+xlabel('Sigma (px)');ylabel('Freq max (1/px)');
 
 %THAT IS THE BONNE COURBE ! maintenant, à partir des coord (taille tâche + max freq)
 %on doit pouvoir trouver le plus proche point de la courbe = indertermination levée
