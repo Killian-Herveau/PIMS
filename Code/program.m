@@ -22,7 +22,7 @@ function varargout = program(varargin)
 
 % Edit the above text to modify the response to help program
 
-% Last Modified by GUIDE v2.5 07-Jan-2016 15:54:28
+% Last Modified by GUIDE v2.5 26-Apr-2016 09:45:06
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,13 +83,57 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-if(handles.chosen_algorithm==1)
-    'Lancement de l''algorithme 1'
-elseif(handles.chosen_algorithm==2)
-    'Lancement de l''algorithme 2'
-elseif(handles.chosen_algorithm==3)
-    'Lancement de l''algorithme 3'
-else 'Erreur: l''algorithme choisi n''est pas entier';
+% if(handles.chosen_algorithm==1)
+%     'Lancement de l''algorithme 1'
+% elseif(handles.chosen_algorithm==2)
+%     'Lancement de l''algorithme 2'
+% elseif(handles.chosen_algorithm==3)
+%     'Lancement de l''algorithme 3'
+% else 'Erreur: l''algorithme choisi n''est pas entier';
+
+% figure
+%SUR UNE même LIGNE les deux pics portent la même info DONC on peut les
+%moyenner.
+k=0;
+alpha=11.2;
+pas=25;
+p=zeros(7,1+1400/pas);
+pos_0=zeros(1,1+1400/pas);
+par_gauss=zeros(5,1+1400/pas);
+
+for i=0:pas:1400
+    img=imdata2(0,i);
+%     [x,y]=findXY(img); pas besoin dans fourier l'origine des freq est
+%     pile au centre, c'est tout ce qu'on a besoin de savoir
+
+    k=k+1;
+    p(:,k)=img_maxfourier2(img,alpha);
+    %On choppe la taille de la gaussienne
+    par_gauss(:,k)=find_the_gauss(imdata(0,i));
+%     plot(1:length(f1),f1,'g');hold on
+%     plot(1:length(f2),f2,'r');hold on
+end
+%smoother les deux courbes 
+%On trace la courbe sigma = f(maxfourier)
+% étant donné un point, trouver le plus proche point de la courbe.
+%%
+spl_Garry=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),0.00001);figure;
+plot(spl_Garry,'g');hold on
+plot(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),'r');title('position de Garry en fonction de z');
+% plot(0:ceil(1400/(length(p(1,:)))):1400,p(5,:),'r');
+% plot(0:ceil(1400/(length(p(1,:)))):1400,p(6,:),'r');
+figure
+spl_Bob=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:),0.00001);
+plot(spl_Bob,'g');hold on
+plot(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:));title('Taille Tâche d''Airy en fonction de z');
+
+figure;
+X_G=spl_Garry(0:1:1400);
+X_B=spl_Bob(0:1:1400);
+
+plot(X_B,X_G);title('sigma en fonction de la fréquence max');
+xlabel('Sigma');ylabel('Freq max');
+
 end
 
 
@@ -301,6 +345,73 @@ function edit6_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function edit6_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on selection change in popupmenu3.
+function popupmenu3_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu3 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu3
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton11.
+function pushbutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function edit7_Callback(hObject, eventdata, handles)
+% hObject    handle to edit7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit7 as text
+%        str2double(get(hObject,'String')) returns contents of edit7 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit7_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 

@@ -21,14 +21,12 @@ for i=0:pas:1400
 %     plot(1:length(f2),f2,'r');hold on
 end
 %smoother les deux courbes 
-%On trace la courbe sigma = f(maxfourier)
-% étant donné un point, trouver le plus proche point de la courbe.
+%On trace la courbe maxfourier = f(sigma)
 %%
 spl_Garry=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),0.00001);figure;
 plot(spl_Garry,'g');hold on
 plot(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),'r');title('position de Garry en fonction de z');
-% plot(0:ceil(1400/(length(p(1,:)))):1400,p(5,:),'r');
-% plot(0:ceil(1400/(length(p(1,:)))):1400,p(6,:),'r');
+
 figure
 spl_Bob=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:),0.00001);
 plot(spl_Bob,'g');hold on
@@ -43,13 +41,3 @@ xlabel('Sigma');ylabel('Freq max');
 
 %THAT IS THE BONNE COURBE ! maintenant, à partir des coord (taille tâche + max freq)
 %on doit pouvoir trouver le plus proche point de la courbe = indertermination levée
-
-%  plot(0:ceil(1400/(length(p(1,:)))):1400,p(2,:));hold on
-%plot(0:pas:1400,(p(3,:)+p(4,:))/2);
-% plot(0:ceil(1400/(length(p(1,:)))):1400,p(1,:),'r');hold on
-% plot(0:ceil(1400/(length(p(2,:)))):1400,p(2,:));%title('répartition de la position de max des freq en fonction de z avec alpha = 11.2');
-% legend('première moitiée','seconde moitiée');
-% 
-% plot(0:pas:1400,p(3,:));hold on
-% plot(0:pas:1400,p(4,:));title('répartition de la position de max des freq en fonction de z');
-% legend('première moitiée 11.2','seconde moitiée 11.2','première moitiée 11.2-90','seconde moitiée 11.2-90');

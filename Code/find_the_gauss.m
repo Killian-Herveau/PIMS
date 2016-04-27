@@ -1,12 +1,23 @@
 function [ p1 ] = find_the_gauss( img )
-%img : image à fitter
+%img : image à fitter (imdata pas imdata2)
 %fit l'image img avec une gaussienne 2D
-%renvoie les positions x et y de la gaussienne
+%   //SORTIE//
+%       p(1) -> offset selon y => A
+%       p(2) -> amplitude
+%       p(3) -> moyenne (horizontale)
+%       p(4) -> moyenne (verticale)
+%       p(5) -> ecart-type
+%%
 
 [x,y]=size(img);
 %   on fit1D pour avoir une estimation de la position et de la variance
-ph=fit_gauss(1:x,moyhor(img,y-1));
-pv=fit_gauss(1:y,moyvert(img,x-1));
+M=histodeg(img,90,25,61,61,25,121);%VERTICAL
+M2=histodeg(img,0,25,61,61,25,121);
+M=M(1:120);
+M2=M2(1:120);
+ph=fit_gauss(1:x,M2);
+pv=fit_gauss(1:y,M);
+% plot(M2);hold on;plot(gaussian_offset(ph(1),ph(2),ph(3),ph(4),1:120))
 ph=abs(ph);%pour éviter les problèmes de nombre complexe éventuels
 pv=abs(pv);
 %On enlève l'offset
@@ -18,6 +29,7 @@ im=masque_hg(im,[ph(3),pv(3)],1,3*ph(4),0,15);
 %23.065 est le pix correspond la fréquence max réceptionnée par le 
 %microscope, donc le reste n'est que du bruit parasite pour le fit.
 g=passebas_hg2D(im,23.065,10);
+g=masque_hg(g,[ph(3),pv(3)],1,3*ph(4),0,15);
 p1=fit_gauss2D(g);
 
 end
