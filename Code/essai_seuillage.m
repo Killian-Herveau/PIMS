@@ -98,7 +98,7 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000650.2Ddbl');
+img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000300.2Ddbl');
 % figure;
 % imshow2(img1);
 %size(img1)
@@ -114,6 +114,7 @@ im2 = masque_rephase2(img1);
 im = masque_rephase(img1);
 figure;
 imshow2(im);
+title('Image de calibration avec barycentres')
 % [centre pos] = max(img1(:));
 % [x y] = ind2sub(size(img1), pos);
 % for i=x-2:x+2
@@ -237,7 +238,7 @@ line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'colo
 
 for ii=1:num-1
     d(ii) = pdist([barycentre(1,ii),barycentre(2,ii);barycentre(1,ii+1), barycentre(2,ii+1)], 'euclidean');
-    d(ii)
+
 end;
 % %% seuillage adaptatif avec fit polynomial -> il est pas très adapté!
 % im = zeros(120,120);s
