@@ -34,16 +34,17 @@ p(7,:)=p(7,:)./(c*120);
 % p(7,:)=120./p(7,:);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-spl_freq=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),0.00001);figure;
+figure;
+spl_freq=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),0.00001);
 plot(spl_freq,'g');hold on
 plot(0:ceil(1400/(length(p(1,:)))):1400,p(7,:),'r+');title('Position de fmax en fonction de z');
-ylabel('Freq max (1/µm)');xlabel('Profondeur (µm)');
+ylabel('Freq max (1/µm)');xlabel('Profondeur (nm)');
 
 figure
 spl_airy=createFitSpl(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:),0.00001);
 plot(spl_airy,'g');hold on
 plot(0:ceil(1400/(length(p(1,:)))):1400,par_gauss(5,:),'r+');title('Taille Tâche d''Airy en fonction de z');
-ylabel('Sigma (µm)');xlabel('Profondeur (µm)');
+ylabel('Sigma (µm)');xlabel('Profondeur (nm)');
 
 figure;
 X_F=spl_freq(0:1:1400);

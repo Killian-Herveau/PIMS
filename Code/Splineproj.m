@@ -11,7 +11,7 @@ function [ z_out ] = splineProj(Point,splinex,spliney,pasf )
 %z: altitude du point le plus proche
 
 %Note:  dmax: distance max pour la norme. 
-dmax=20;
+dmax=50;
 itermax=500; %iteration max pour le while
 itermax2=itermax;
 
@@ -27,7 +27,7 @@ z=1:pas:1400;
 a=splinex(z);
 f=spliney(z);
 Points=[a,f];
-size(Points)
+% size(Points)
 l=length(a);
 
 
