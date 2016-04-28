@@ -228,8 +228,8 @@ title('seuillage adap fit-gauss2D');
 barycentre = zeros(2,num);
 for ii=1:num
     
-    im_seuil=(L==ii);
-    [y,x] = find(im_seuil);
+    im_seuil2=(L==ii);
+    [y,x] = find(im_seuil2);
     barycentre(1,ii) = mean(x);
     barycentre(2,ii) = mean(y);
 end;
