@@ -17,12 +17,12 @@ for i=0:pas:1400
     k=k+1;
     p(:,k)=img_maxfourier2(img,alpha);
     %On choppe la taille de la gaussienne
-    par_gauss(:,k)=find_the_gauss(imdata(0,i));
+    par_gauss(:,k)=find_the_gauss(img);
 %     plot(1:length(f1),f1,'g');hold on
 %     plot(1:length(f2),f2,'r');hold on
 end
 %converti en µm
-par_gauss(5,:)=par_gauss(5,:)/c;
+par_gauss(5,:)=par_gauss(5,:)*c;
 %période en µm et airy en µm
 %taille pixel : 3,24675µm
 %frequence(mètres)=frequence(pixel)/cN

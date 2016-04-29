@@ -444,7 +444,7 @@ end
 % if(prod(D_>=1)*(D_(1)<=yimage)*(D_(2)<=ximage))
 % image(round(D_(1)),round(D_(2)))=255;
 % end
-% 
+
 % subplot(1,2,1)
 % 
 % if angle>0
@@ -452,7 +452,7 @@ end
 %     v=v+1;
 % figure
 % imagesc(image)
-% % 
+% % % 
 % hold on
 % j=1:ximage;
 % plot(j,-t*(j-jc-e*s)+ic+e*c);
@@ -465,15 +465,15 @@ end
 % end
 % title(num2str(v));
 % end
-
-
+% 
+% 
 % subplot(1,2,2)
 % plot(moy);
-
-
-
 % 
-% %IMAGE GRANDE
+% 
+% 
+% 
+% %%%%IMAGE GRANDE
 % 
 % A2=[A(1)+ximage;A(2)+yimage];
 % B2=[B(1)+ximage;B(2)+yimage];
@@ -513,7 +513,7 @@ end
 % if(prod(D2_>=1))
 % img(floor(D2_(1)),floor(D2_(2)))=255;
 % end
-% 
+
 % 
 % 
 % imagesc(img)
