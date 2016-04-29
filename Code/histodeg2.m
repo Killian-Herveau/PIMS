@@ -2,6 +2,8 @@ function [ moy,pas ] = histodeg2(image,angle,epaisseur,ic,jc,ne,nhisto )
 %Effectue l'histogramme d'une image, selon un angle. Le centre de
 %l'histogramme correspond au point ic,jc.
 
+affichage=0;
+
 %histodeg2: on force le bon nombre d'échantillon
 
 %ENTREES
@@ -469,6 +471,8 @@ end
 %     v=v+1;
 % figure
 % hold on
+
+if(affichage)
 imshow2(image)
 % 
 hold on
@@ -478,6 +482,7 @@ hold on
 plot(j,-t*(j-jc+e*s)+ic-e*c);
 hold on
 plot(j,-t*(j-jc)+ic);
+end
 % if isempty(v)
 %     v=1;
 % end

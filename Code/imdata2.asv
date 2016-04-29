@@ -1,9 +1,10 @@
-function [ img ] = imdata(dossier,numero,im)
+function [ img ] = imdata2(dossier,numero,im)
 %imdata :renvoie l'image en position "numero" dans le dossier Mesures ou Calibration
+%en effectuant un masque_rephase
 %Createur: moi
 %ENTREES:
 % dossier: mettre M ou 1 pour mesures et C ou 0 pour Calibration
-% 2A 2C ou 2R ou 2e set\ Acquisition, Calibration ou Repetabilité
+% 2a 2c ou 2r ou 2eset\ Acquisition, Calibration ou Repetabilité
 
 % num: valeur du focus
 % im: pour le dossier Mesures, numero de l'image
@@ -36,19 +37,12 @@ if((dossier(1)=='M')|(dossier(1)=='m')|(dossier(1)==1))
     chemin=strcat('..\..\Projet 2A\Mesures\STACK=0000_IM=',sim,'_Z=',snum,'.2Ddbl')
 elseif((dossier(1)=='C')|(dossier(1)=='c')|(dossier(1)==0))
     chemin=strcat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=',snum,'.2Ddbl')
-elseif(dossier(1)=='2')
-    if(dossier(2)=='A')
-        chemin=strcat('..\..\Projet 2A\2e set\Acquisition réelle\SOUSTR 0',snum,'.2Ddbl')
-    elseif(dossier(2)=='C')
-        chemin=strcat('..\..\Projet 2A\2e set\Calibration\STACK=0000_IM=',sim,'_Z=',snum,'.2Ddbl')
-    elseif(dossier(2)=='R')
-        chemin=strcat('..\..\Projet 2A\2e set\Repetabilité\STACK=0000_IM=',sim,'_Z=',snum,'.2Ddbl')
-    end
+    elsei
 else
     warning('dossier specifie non pris en charge par la fonction, rentrez C (ou 0) ou M (ou 1)')
 end
 
-img=bin2mat(chemin);
+img=masque_rephase(bin2mat(chemin));
 
 end
 % 
