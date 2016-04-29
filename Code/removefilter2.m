@@ -31,7 +31,7 @@ function [ imgout] = removefilter2(imgin,bplot)
 % nitermax=100; %iterations max pour le while (do_not_search_freq = 0)
 
 
-do_not_search_freq=0; %mettre 1 pour un choix predeterminé des fréquences à enlever (sans passer par leur recherche)
+do_not_search_freq=1; %mettre 1 pour un choix predeterminé des fréquences à enlever (sans passer par leur recherche)
 npicmax=14;  %4ordresup+ 8*ordre1 + 1*pic central / %correspond au nombre de pics à enlever
 emoy=20; %epaisseur utilisee pour la moyenne horizontale
 k=6; %puissance des hypergaussiennes (plus k est élevée, plus le filtre ressemble à un rectangle)

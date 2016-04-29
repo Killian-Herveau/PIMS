@@ -35,7 +35,7 @@ moy=zeros(nv); %contient l'histogramme
 %ENTREES:
 % angle: angle entre -90 et 90 degres,dans le sens trigo
 
-%equation generale: i=-tan*(j-j0)+i0
+%Equation generale: i=-tan*(j-j0)+i0
 
 %parametres
 moy=0;

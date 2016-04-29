@@ -44,6 +44,8 @@ elseif(dossier(1)=='2')
     elseif(dossier(2)=='R')
         chemin=strcat('..\..\Projet 2A\2e set\Repetabilité\STACK=0000_IM=',sim,'_Z=',snum,'.2Ddbl')
     end
+elseif(dossier(1)=='E')
+    chemin=strcat('..\..\Projet 2A\Exs interferogrammes\0',snum,'.2Ddbl')
 else
     warning('dossier specifie non pris en charge par la fonction, rentrez C (ou 0) ou M (ou 1)')
 end

@@ -3,5 +3,8 @@
 % imshowf(fftshift(fft2(cal1)))
 % 
 
-im=imdata2('2A',80);
+im=imdata('E',100);
+tic
+im=removefilter(im);
 imshow2(abs(im))
+toc
