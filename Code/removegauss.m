@@ -13,12 +13,12 @@ function [ image2 ] = removegauss(img)
 [x y]=size(img);
 
 %Calcul des coefficients probables
-p0(1)=min(min(img))
+p0(1)=min(min(img)) %offset
 [poubelle,imaxs]=max(img);
 [p0(2) p0(4)]=max(max(img));
 maximg=p0(2);
 p0(3)=imaxs(p0(4));
-p0(2)=p0(2)-p0(1);
+p0(2)=p0(2)-p0(1); %amplitude
 
 %variance: on trouve le x correspondant a la moitié du maximum, sur une ligne
 k=p0(3);
@@ -28,6 +28,8 @@ end
 p0(5)=sqrt(((k-p0(3))^2)*log(2*p0(2)/(p0(2)-p0(1)))/2); 
     
 p=fit_gauss2D(img);
+% p(2)=p(2)*2;
+% p(2)=5000;
 gauss=hgaussp([x y],[p(3) p(4)],p(2),p(5),p(1),1);
 image2=img-gauss;
 % imshow2(image2)
