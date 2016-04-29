@@ -31,7 +31,7 @@ f2=abs(im2);
 
 %fait la moyenne sur les boules d'intérêt, seulement "horizontal"
 %récupère tout 
-[f_im,pas] = histodeg(f2,-alpha,6,61,61,10,2*size(img,1)+1);
+[f_im,pas] = histodeg2(f2,-alpha,6,61,61,10,2*size(img,1)+1);
 
 % [f_im,positions] = moydeg_pos(f2,-alpha,6,61,61,0.5,0.5);
 

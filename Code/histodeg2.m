@@ -473,7 +473,7 @@ end
 % hold on
 
 if(affichage)
-imshow2(image)
+imagesc(image)
 % 
 hold on
 j=1:ximage;

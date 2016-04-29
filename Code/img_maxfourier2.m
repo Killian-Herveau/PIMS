@@ -20,7 +20,7 @@ f22=zeros(length(f1),1);
 f21=zeros(length(f1),1);
 
 f12(ceil(length(f1)/2):length(f1))=f1(ceil(length(f1)/2):length(f1)); %freq positives
-f11(1:ceil(length(f1)/2))=f1(1:ceil(length(f1)/2)); %freq 'négatives'
+f11(1:floor(length(f1)/2))=f1(1:floor(length(f1)/2)); %freq 'négatives'
 
 f12(ceil(length(f1)/2):length(f1))=f1(ceil(length(f1)/2):length(f1)); %freq positives
 f11(1:floor(length(f1)/2))=f1(1:floor(length(f1)/2)); %freq 'négatives'
