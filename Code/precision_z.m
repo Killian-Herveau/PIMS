@@ -2,6 +2,7 @@ load ../Airy_freq
 X_F=spl_freq(0:1:1400);
 X_A=spl_airy(0:1:1400);
 alpha=11.2;
+c=3.24675;
 z=zeros(1,75);
 figure
 plot(X_A,X_F)
