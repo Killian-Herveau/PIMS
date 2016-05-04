@@ -4,7 +4,7 @@ function [ id ] = smooth_max2( f )
 %analytiquement ses racines
 % [y,p]=fourier2pol(f); % bad idea
 [z,zz]=max(f);
-if(zz<120)
+if(zz<121)
     x=47-40:47+40;%c'est arbitraire, c'est pour voir mieux où est le max et améliorer le fit
 else
     x=192-40:192+40;
@@ -12,11 +12,18 @@ end
 f1=f(x);
 %spl est un 'cfit'
 spl=createFitSpl(x,f1');
-%cette ligne permet d'extraire les valeurs de la spline
-t=spl(x);
-pp=fit_gauss(x',t);
-id=pp(3);
 
+%%%%%%% IDEE 1 %%%%%%%%
+x2=x(1):0.01:x(length(x));
+t=spl(x2);
+[ma, id]=max(t);
+id=id/100+x(1);
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% IDEE 2 %%%%%%%% NUL
+% t2=spl(x);
+% pp=fit_gauss(x',t2);
+% id2=pp(3);
+%%%%%%%%%%%%%%%%%%%%%%%
 % plot(t);
 
 % G=gaussian_offset(pp(1),pp(2),pp(3),pp(4),x);

@@ -1,4 +1,4 @@
-%img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000700.2Ddbl');
+%img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000525.2Ddbl');
 %img1 = masque_rephase(img1);
 % im=zeros(120,120);
 % %% seuillage adaptatif
@@ -98,7 +98,7 @@
 % figure;
 % plot(moyenne1);
 %% seuillage adapatif avec fit_gauss2D
-img1 = bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00065_Z=000100.2Ddbl');
+img1 = bin2mat('..\..\Projet 2A\Calibration\STACK=0001_IM=00001_Z=000300.2Ddbl');
 % figure;
 % imshow2(img1);
 %size(img1)
@@ -114,6 +114,7 @@ im2 = masque_rephase2(img1);
 im = masque_rephase(img1);
 figure;
 imshow2(im);
+title('Image de calibration avec barycentres')
 % [centre pos] = max(img1(:));
 % [x y] = ind2sub(size(img1), pos);
 % for i=x-2:x+2
@@ -153,29 +154,32 @@ imshow2(im);
         moyenne = 0;
         for i=-1:1
             for j=-1:1
-                moyenne = moyenne + img1(61+i,61+j);
+                moyenne = moyenne + img1(60+i,60+j);
             end
         end
-        moyenne = (moyenne-img1(61,61))/8;
-        img1(61,61) = moyenne;
+        moyenne = (moyenne-img1(60,60))/8;
+        img1(60,60) = moyenne;
 
-poids = ones(1,120*120);
-for i=60:61
-    poids(1,i) = 0.05;
-
-end
-
-p = fit_gauss2D(im2,poids);
-im_seuil = zeros(120, 120);
 % [centre pos] = max(im(:));
 % [x y] = ind2sub(size(im), pos);
 % for i=x-2:x+2
 %     for j = y-2:y+2
-%         im(i,j) = 0;
+%         im(i,j) = 1000;
 %     end
 % end
-comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
 
+
+% poids = ones(1,120*120);
+% for i=120*60:120*60+2
+%     poids(1,i) = 1.5;
+% 
+% end
+% 
+% p = fit_gauss2D2(im2,poids);
+p = fit_gauss2D(im);
+im_seuil = zeros(120, 120);
+comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
+%comparaison = masque_rephase(comparaison);
 % Utilisation de extrema :
 % a=mean(img1);
 % plot(a)
@@ -190,21 +194,27 @@ comparaison = hgaussp(size(img1), [p(3), p(4)], p(2), p(5), p(1), 1);
 % plot(t(imax2),ymax2,'r*',t(imin2),ymin2,'g*')
 % hold off
 
-
+% for i=58:62
+%     for j=59:63
+%         comparaison(i,j) = comparaison(i,j)+25;
+%     end
+% end
 figure;
 imshow2(comparaison);
+title ('comparaison');
 
 for i=1:120
     for j=1:120
-        if im(i,j)>comparaison(i,j)
+        if im(i,j)>comparaison(i,j)+50
             im_seuil(i,j) = 1;
         else 
             im_seuil(i,j) = 0;
         end
     end
 end
-
-
+figure;
+imshow2(im_seuil);
+title('seuillage avant traitement');
 im_seuil = bwmorph(im_seuil, 'remove', Inf);
 figure; 
 imshow(im_seuil,'InitialMagnification','fit');
@@ -218,8 +228,8 @@ title('seuillage adap fit-gauss2D');
 barycentre = zeros(2,num);
 for ii=1:num
     
-    im_seuil=(L==ii);
-    [y,x] = find(im_seuil);
+    im_seuil2=(L==ii);
+    [y,x] = find(im_seuil2);
     barycentre(1,ii) = mean(x);
     barycentre(2,ii) = mean(y);
 end;
@@ -228,7 +238,7 @@ line(barycentre(1,:), barycentre(2,:), 'LineStyle', 'none', 'Marker', '+', 'colo
 
 for ii=1:num-1
     d(ii) = pdist([barycentre(1,ii),barycentre(2,ii);barycentre(1,ii+1), barycentre(2,ii+1)], 'euclidean');
-    d(ii)
+
 end;
 % %% seuillage adaptatif avec fit polynomial -> il est pas très adapté!
 % im = zeros(120,120);s

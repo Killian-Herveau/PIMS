@@ -1,7 +1,7 @@
 %%
 %Ce script sert à fitter le spot par la gaussienne la plus adaptée
 %%
-img=bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00070_Z=001200.2Ddbl');
+img=bin2mat('..\..\Projet 2A\Mesures\STACK=0000_IM=00070_Z=000300.2Ddbl');
 % figure;imshow2(img);
 %img=hgaussp( [200 200],[100,70],1,20,1,1);
 alpha=11.2;

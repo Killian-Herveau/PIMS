@@ -12,7 +12,6 @@ else
     sigma=0;
 end
     [x,y]=size(img);
-    
     ph=fit_gauss(1:x,moyhor(img,floor((y-1)/2)));
     pv=fit_gauss(1:y,moyvert(img,floor((x-1)/2)));
     ph=abs(ph);%pour éviter les problèmes de nombre complexe éventuels

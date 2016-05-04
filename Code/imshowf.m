@@ -4,7 +4,7 @@ function [] = imshowf(img,amp_or_phase)
 %giving the value 1 or 2 to amp_or_phase.
 
 %Author: Adrien Mau, also known as SmartiesJaune, Choupi, and Democratic Master of the
-%Seven Realms of Xantio-B76. 
+%Seven Realms of Sirius. 
 
     %Verif.
     if (~exist('amp_or_phase','var'))
