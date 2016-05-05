@@ -110,7 +110,7 @@ im = zeros(120, 120);
 %         img1(i,j) = 0;
 %     end
 % end
-im2 = masque_rephase2(img1);
+%im2 = masque_rephase2(img1);
 im = masque_rephase(img1);
 figure;
 imshow2(im);
@@ -205,7 +205,7 @@ title ('comparaison');
 
 for i=1:120
     for j=1:120
-        if im(i,j)>comparaison(i,j)+50
+        if im(i,j)>comparaison(i,j)
             im_seuil(i,j) = 1;
         else 
             im_seuil(i,j) = 0;
