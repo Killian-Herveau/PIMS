@@ -101,7 +101,7 @@ if(do_not_search_freq)
             F(i,1)=offsetf+i*deltaf;
         end
     end 
-    %Ici, on a les frequences des pics qu'il faut enlever, dans F, donnes
+    %Ici, on a les frequences des pics qu'il faut enlever, dans F, donnees
     %par l'user
     
 else
