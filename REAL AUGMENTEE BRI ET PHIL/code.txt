@@ -1,0 +1,389 @@
+clear, tic
+ 
+%PARAMETRE :
+VideoALire = 'vid_in.mp4'; %Vidéo sur laquelle se fait le traitement
+ImgRemplacement='img_remplacement.jpg'; %Image utilisée pour le remplacement.
+VideoSortie='sortie4.avi'; %Fichier de sortie pour la vidéo traitée
+inception = 1; %Nombre de fois que le traitement doit se réaliser par image.
+%Mettre 1 pour un traitement normal.
+ 
+%-------------Début du programme-----------------
+ 
+%Chargement des fonctions du dossier 'fonctions'
+addpath('fonctions')
+ 
+%Définie la valeur globale N, numéro de l'image en cours de traitement
+global N
+ 
+%Récupération des information concernant la vidéo sur laquelle se fait le traitement :
+Video = VideoReader(VideoALire);
+vidHeight = Video.Height;
+vidWidth = Video.Width;
+NumberOfFrames = Video.NumberOfFrames;
+%Après NumberOfFrames, la vidéo à été lue jusqu'à la dernière image. Il
+%faut donc la réouvrir pour repartir du début de la vidéo :
+Video = VideoReader(VideoALire);
+ 
+%Définition de l'image utilisée pour faire le remplacement :
+ImgRemplacement = double(imread(ImgRemplacement));
+ 
+%Définition du fichier de sortie :
+writerObj = VideoWriter(VideoSortie);
+open(writerObj);
+sortieVide=zeros(vidHeight, vidWidth);
+ 
+ 
+%Initialisation des variables utilisée plus tard :
+barN = zeros(NumberOfFrames*2, 4);
+M2=0;
+seuil=0;
+%Le modèle M2 et le seuil sont utilisés pour la prise en compte de la mains. 
+%Il ne doivent pas être utilisés avant l'image 38 (apparition de la main)
+ 
+ 
+%-------------Début du traimtement-----------------
+ 
+%Traitement particulier de la première image
+N=1;
+ 
+img1 = readFrame(Video);
+[M,s, barN(1:2,:)] = initialisation(img1);
+ 
+%Boucle pour traiter l'ensemble des images de la vidéo
+while(hasFrame(Video))
+    %Selection de l'image suivante
+    N=N+1;
+    imgN = readFrame(Video);
+    
+    %Repérage de la position des picots sur cette image
+    barN(2*N:2*N+1,:) = reperage_pos_picots(imgN, M, s, barN(2*(N-1):2*(N-1)+1,:));
+    
+    
+    if N==38
+        [M2, seuil] = initialisationDoigts( imgN );
+    end
+    % Incrustation de l'image de remplacement
+    imgN = Incrustation(imgN, ImgRemplacement, barN(2*N:2*N+1,:), M2, seuil);
+    for i=1:inception-1
+        imgN = Incrustation(imgN, double(imgN),    barN(2*N:2*N+1,:), M2, seuil);
+    end
+    % Enregistrement de l'image avec remplacement
+    writeVideo(writerObj, imgN)
+    
+    if mod(N, 10)==0
+        disp(['Avancement : ', num2str(floor(N/NumberOfFrames*100)), '%']);
+    end
+end
+ 
+%Finalise
+close(writerObj);
+close all;
+toc;
+msgbox('Terminé');
+
+
+
+function [ M ] = CalcM( imgRed )
+%Permet le calcul du modèle M=[moyenne,covariance] des couleurs de l'image
+%passée en entrée
+%ENTREE : imgRed image de double en couleur
+%SORTIE : M modèle des couleur, définie selon M=[mu,sigma]:
+%           mu (3*1 double) moyenne des couleur sur l'espace RGB
+%           sigma (3*3 double) covariance des couleur sur l'espace RGB
+ 
+mu = mean(mean(imgRed));
+mu=mu(:); %Réordonnancement des moyenne
+ 
+%Récupération et réodonancement des couleur de chaque pixel
+R=imgRed(:,:,1);
+G=imgRed(:,:,2);
+B=imgRed(:,:,3);
+x(:,1)=R(:);
+x(:,2)=G(:);
+x(:,3)=B(:);
+ 
+%Calcul de chaque élément de la matrice de covariance
+sigma=ones(3,3);
+for i=1:3
+    for j=1:3
+        sigma(i,j)=sum((x(:,i)-mu(i)).*(x(:,j)-mu(j)));
+    end
+end
+ 
+M=[mu,sigma];
+end
+ 
+
+function [barycentre] = determination_bar(im_seuil)
+%Determine le barycentre de chaque élément indépendant contenu dans l'image
+%en entrée
+%ENTREE : im_seuil image en noir et blanc contenant plusieurs zone distance
+%           dont on cherche les barycentres
+%SORTIE : barycentre (2*n double) position [x;y] des barycentre des n zones
+%           distinctes trouvée
+ 
+ 
+im_seuil = bwmorph(im_seuil, 'majority', Inf);
+ 
+im_seuil= edge(im_seuil, 'canny', [0.1 0.5],3);
+ 
+[L,num] = bwlabel(im_seuil,8);
+barycentre = zeros(2,num);
+for ii=1:num
+    im_seuil=(L==ii);
+    [y,x] = find(im_seuil);
+    barycentre(1,ii) = mean(x);
+    barycentre(2,ii) = mean(y);
+end
+
+
+
+function [ imDist ] = dMaha( img, M )
+%Calcul la distance de Mahalanobis entre chaque pixel de l'image img en entrée
+%et un modèle de couleur donné par M
+%ENTREES : img image de double en couleur
+%          M matrice modèle de couleur retournée par CalcM
+%SORTIE :  imDist image de double en nuance de gris donnant la distance de
+%           Mahalanobis pour chaque pixel
+ 
+%Séparation des moyenne et des covariances
+sigma = M(:,2:4);
+mu = M(:,1);
+ 
+%Séparation des données pour chaque couleur
+R = img(:,:,1)-mu(1);
+G = img(:,:,2)-mu(2);
+B = img(:,:,3)-mu(3);
+ 
+%Calcul de la distance de Mahalanobis pour chaque pixel. Renvoie les pixels
+%comme un unique vecteur ligne
+imDist = sum([R(:)'; G(:)'; B(:)'].*(inv(sigma)*[R(:)'; G(:)'; B(:)']),1);
+ 
+%Réorganisation des pixels sous forme d'un images
+imDist = reshape( imDist, size(img,1), size(img,2), 1 );
+ 
+end
+ 
+
+function [ imgN ] = Incrustation( imgN, imgRemplacement, barN, Mmain, seuilmain)
+%Dans l'image imgN, remplace la zone définie par les 4 picots de barN par
+%l'image imgRemplacement. Ne remplace pas la zone correspondant à la main
+%ENTREES : imgN : Nième image (int8) de la vidéo
+%          imgRemplacement : image (double) servant à remplacer la zone
+%               définie par les picots
+%          barN : poistion (2*4 int8) des barycentres des picots sur
+%               l'image N
+%          Mmain : Matrice modèle retournée par CalcM représentant les
+%               couleurs de la main
+%          seuilmain : seuil permetant d'isoler la couleur de la main
+%SORTIE : imgN : Nième image (int8) de la vidéo, avec le remplacement
+%               effectué
+ 
+%Récupère la variable globale N indiquant le numéro de l'image en cours de
+%traitement
+global N
+ 
+%Réorganise les barycentres
+barN=barN';
+ 
+%Défini la zone dans d'imgN représentée par barN. corecCoin permet de ne
+%pas prendre les bords de l'image de remplacement, et ainsi remplacer une
+%zone plus large (ie : toute la feuille), au lieu de remplacer la zone
+%située exclusivement entre les picots.
+corecCoin=0.080;
+coins = [(1-corecCoin)*size(imgRemplacement,2), (1-corecCoin)*size(imgRemplacement,1);     corecCoin*size(imgRemplacement,2), (1-corecCoin)*size(imgRemplacement,1); 
+            corecCoin*size(imgRemplacement,2),     corecCoin*size(imgRemplacement,1); (1-corecCoin)*size(imgRemplacement,2),     corecCoin*size(imgRemplacement,1)];
+ 
+%Calcul de l'homographie entre la zone à remplacer sur l'image de la vidéo
+%et l'image de remplacement.
+H=fitgeotrans(coins, barN, 'projective');
+ 
+%Déforme l'image de remplacement d'après l'homographie, récupère ses
+%dimensions
+[imgtransformee,infos] = imwarp(imgRemplacement, H, 'FillValues', [-1 -1 -1]);
+minX = round(infos.XWorldLimits(1));
+minY = round(infos.YWorldLimits(1));
+ 
+%Isole la partie d'intérêt (ie : à modifier) sur l'image imgN
+imgNfinale = imgN(minY:(minY+infos.ImageSize(1)-1), minX:(minX+infos.ImageSize(2)-1),:);
+ 
+%Si la main est présente sur l'image, donc à prendre en compte
+if N>=38
+    %Répère la position de la main
+    imDist = dMaha(double(imgNfinale), Mmain);
+    imSeuillee  = imDist < seuilmain;
+    
+    %Ferme puis ouvre l'image de la main, pour homogénéiser la zone à
+    %prendre en compte
+    elem = strel('disk', 2, 0);
+    imSeuillee = imdilate(imerode(imSeuillee, elem), elem);
+    elem2=strel('disk', 4, 0);
+    imSeuillee = imerode(imdilate(imSeuillee, elem2), elem2);
+    
+    %Indique que la main ne doit pas être remplacée (valeur -1 sur l'image
+    %de remplacement)
+    imgtransformee = (repmat(imSeuillee==0,1,1,3)).*imgtransformee + (repmat(imSeuillee~=0,1,1,3))*-1;
+end
+ 
+%Remplie l'image de remplacement après homographie (donc non rectangulaire)
+%avec les valeur de l'image de fond imgN
+imgNfinale = (imgtransformee<0).*double(imgNfinale) + (imgtransformee>=0).*imgtransformee;
+ 
+%Replace l'image après incrustation dans l'image globale
+imgN(minY:(minY+infos.ImageSize(1)-1), minX:(minX+infos.ImageSize(2)-1),:) = imgNfinale;
+end
+ 
+
+
+function [M, seuil, barN_1] = initialisation(img1)
+%Cette fonction permet l'initialisation du traitement de la vidéo.
+%Elle permet de selectionner l'un des picots bleu de déterminer un seuil
+%adéquat qui sera utiliser pour tout le traitement
+%ENTREE : img1, 1ière image de la vidéo
+%SORTIES : M, matrice (3*4 double) modèle utilisée par la distance de mahalanobis
+%          seuil, seuil (double) permetant de diférencier les picots du reste
+%          barN_1, position (2*4 double) des barycentre des picots de la
+%          première image. Chaque colonne représente les position [x;y] de
+%          chaque barycentre.
+ 
+close all
+ 
+imshow(img1);
+%Selection d'un picot à la souris :
+% [x,y] = ginput(2);
+% x=fix(x)
+% y=fix(y)
+%Les valeurs suivante fonctionnent bien :
+x=[184,194];
+y=[142,152];
+ 
+%Reduction de l'image d'après les coordonnées choisies
+imgRed = img1(y(1):y(2),x(1):x(2),:);
+ 
+%Calcul du modèle M utilisé pour faire une distance de Mahalanobis
+M=CalcM(double(imgRed));
+ 
+%Cacul de la distance de Mahalanobis
+imDist = dMaha(double(img1), M);
+ 
+% Choix d'un seuil pour différencier la couleur du picot du reste
+seuil = '1';
+%Boucle permettant de trouver un seuil adéquat ne faisant apparaitre que
+%les picots. Cette boucle peut être commentée pour utiliser le seuil apr
+%défaut de 1
+    validation = 'Non';
+    imagesc(imDist);
+    while validation == 'Non'
+        seuil = inputdlg('Veuillez choisir une valeur pour le seuil',...
+             'Choix seuil',...
+             1,...
+             {seuil});
+        seuil = str2double(seuil);
+        imSeuillee  = imDist < seuil;
+        h=figure, imshow(imSeuillee);
+        validation = questdlg('Ce seuil vous convient-il ?', 'Validation seuil',...
+            'Oui', 'Non', 'Oui');
+        seuil = num2str(seuil);
+        close all
+    end
+seuil = str2double(seuil);
+ 
+%Seuillage
+imSeuillee  = imDist < seuil;
+ 
+%Détermination de la position des picots
+barN_1 = determination_bar(imSeuillee);
+ 
+%Réordonancement des picots trouvés
+barry = barN_1(:,3);
+barN_1(:,3) = barN_1(:,4);
+barN_1(:,4) = barry;
+ 
+close all
+end
+
+
+
+function [ M, seuil ] = initialisationDoigts( imgDoigts )
+%Initialise la prise en compte de la présence des doigts sur l'image :
+%récupère un matrice modèle M et un seuil permettant d'isoler la couleur
+%des doigts
+%ENTREE : imgDoigts : image (int8) de la video d'origine dans laquelle les
+%           doigts sont présents
+%SORTIE : M : matrice modèle retournée par CalcM permettant d'isoler la
+%           couleur des doigts
+%         seuil : valeur (double) permettant d'isoler la couleur des doigts
+ 
+imagesc(imgDoigts);
+%Selection des doigts à la souris :
+[x,y] = ginput(2);
+x=fix(x)
+y=fix(y)
+% Les valeurs suivante fonctionnent bien :
+% x=[277, 286];
+% y=[110, 130];
+ 
+%Reduit l'image à la zone où se trouvent les doigts
+imgRed = imgDoigts(y(1):y(2),x(1):x(2),:);
+ 
+M=CalcM(double(imgRed));
+seuil = 0.1;
+%La valeur de seuil fonctionnelle est empirique
+end
+ 
+
+function [ bar ] = ordonnancement( bar1, bar2 )
+%Ordonne les 4 barycentre de bar2 d'après leur proxymité avec les
+%barycentre de bar1
+%ENTREES : bar1 : (2*4 int8) barycentre de reférence
+%          bar2 : (2*4 int8) barycentre à ordonnée
+%SORTIE : bar : (2*4 int8) barycentre de bar2 réordonnés (colonnes
+%               échangées)
+ 
+ 
+[size1, size2] = size(bar2);
+dist = zeros(4,size2);
+bar = zeros(2,4);
+for i = 1:4
+    for j=1:size2
+        dist(i,j) = pdist([bar1(1,i),bar1(2,i);bar2(1,j), bar2(2,j)], 'euclidean');
+    end
+end
+for i = 1:4
+    [m, pos_old] = min(dist);
+    [mini, pos_new] = min(m);
+    size(bar2);
+    bar(:, pos_old(pos_new)) = bar2(:, pos_new);
+    dist(pos_old(pos_new),:) =max(max(dist))+3;
+    dist(:,pos_new) = max(max(dist))+3;
+end
+ 
+end
+ 
+
+function [ barN ] = reperage_pos_picots( imgN, M, seuil, barN_1  )
+%Repère la position (barycentre) des 4 picots de la Nième image d'après la
+%postion des picots à l'image précédente
+%ENTREES : imgN : Nième image (valeur en int8) de la vidéo
+%          M : matrice modèle utilisée pour la distance de Mahalanobis. 
+%               Obtenue à l'aide de CalcM
+%          Seuil : double, seuil à prendre pour isoler le picots dans
+%               l'espace de Mahalanobis
+%          barN_1 : position (2*4 int8) des 4 barycentres à l'image précédente
+%SORTIE :  barN : position (2*8 int8)  des 4 barycentres à l'image N
+ 
+%Crée une image binaire isolant les 4 picots
+imgN = double(imgN);
+imDist = dMaha(imgN, M);
+imSeuil = imDist < seuil;
+ 
+%Détermines les barycentre des 4 picots
+barycentre = determination_bar(imSeuil);
+ 
+%Réordonne les picots d'après leur position à l'image précédente
+barN = ordonnancement(barN_1, barycentre);
+ 
+end
+ 
+
+
